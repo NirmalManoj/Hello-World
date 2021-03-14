@@ -108,21 +108,26 @@ int main(int argc, char **argv) {
 
     /* Draw in loop */
     while (!glfwWindowShouldClose(window)) {
-        // Process timers
-
-        if (t60.processTick()) {
-            // 60 fps
-            // OpenGL Draw commands
-            draw();
-            // Swap Frame Buffer in double buffering
-            glfwSwapBuffers(window);
-
-            tick_elements();
-            tick_input(window);
-        }
-
-        // Poll for Keyboard and mouse events
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glfwSwapBuffers(window);
         glfwPollEvents();
+        // Boiler below
+        // // Process timers
+
+        // if (t60.processTick()) {
+        //     // 60 fps
+        //     // OpenGL Draw commands
+        //     draw();
+        //     // Swap Frame Buffer in double buffering
+        //     glfwSwapBuffers(window);
+
+        //     tick_elements();
+        //     tick_input(window);
+        // }
+
+        // // Poll for Keyboard and mouse events
+        // glfwPollEvents();
     }
 
     quit(window);
