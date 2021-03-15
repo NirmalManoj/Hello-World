@@ -124,6 +124,13 @@ void tick_input(GLFWwindow *window) {
     int key_e = glfwGetKey(window, GLFW_KEY_E);
     int key_r = glfwGetKey(window, GLFW_KEY_F);
 
+    int key_i = glfwGetKey(window, GLFW_KEY_I);
+    int key_j = glfwGetKey(window, GLFW_KEY_J);
+    int key_k = glfwGetKey(window, GLFW_KEY_K);
+    int key_l = glfwGetKey(window, GLFW_KEY_L);
+    int key_o = glfwGetKey(window, GLFW_KEY_O);
+    int key_p = glfwGetKey(window, GLFW_KEY_P);
+
     const float camera_speed = 0.05f;
     if (key_w) {
         camera_spot = 0;
@@ -145,6 +152,26 @@ void tick_input(GLFWwindow *window) {
         camera_spot = 0;
         eye += camera_speed * glm::vec3(1, 0, 0);
         target += camera_speed * glm::vec3(1, 0, 0);
+    }
+
+
+    if (key_i){
+        ball1.move_position(cameraFront*camera_speed);
+    }
+    if (key_k){
+        ball1.move_position(-1.0f*cameraFront*camera_speed);
+    }
+    if (key_j){
+        ball1.move_position(-1.0f*glm::vec3(1, 0, 0)*camera_speed);
+    }
+    if (key_l){
+        ball1.move_position(1.0f*glm::vec3(1, 0, 0)*camera_speed);
+    }
+    if (key_o){
+        ball1.move_position(1.0f*glm::vec3(0, 1, 0)*camera_speed);
+    }
+    if (key_p){
+        ball1.move_position(-1.0f*glm::vec3(0, 1, 0)*camera_speed);
     }
 
     if (start_rotate){

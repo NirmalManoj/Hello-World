@@ -4,6 +4,7 @@
 Ball::Ball(float x, float y, color_t color) {
     srand(time(0));
     this->position = glm::vec3(x, y, 0);
+    this->initial_position = this->position;
     this->rotation = 0;
     this->spin_axis = 0;
     speed = 1;
@@ -97,6 +98,14 @@ void Ball::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }
 
+void Ball::move_position(glm::vec3 del){
+    this->position = this->position + del;
+}
+
+
+void Ball::reset_position(){
+    this->position = initial_position;
+}
 
 void Ball::start_spin()
 {
