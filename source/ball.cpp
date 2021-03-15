@@ -52,25 +52,25 @@ Ball::Ball(float x, float y, color_t color) {
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
 
     static GLfloat color_buffer_data[12*3*3];
-    for(int i = 0; i < 12*3*3; i+=1)
+    for(int i = 0; i < 12*3*3; i+=9)
     {
         color_buffer_data[i] = rand() % 256;
         color_buffer_data[i] /= 256.0;
-        // color_buffer_data[i] = rand() % 256;
-        // color_buffer_data[i] /= 256.0;
-        // for (int j = i+3; j < i + 18; j+=3){
-        //     color_buffer_data[j] = color_buffer_data[i];
-        // }
-        // color_buffer_data[i+1] = rand() % 256;
-        // color_buffer_data[i+1] /= 256.0;
-        // for (int j = i+4; j < i + 18; j+=3){
-        //     color_buffer_data[j] = color_buffer_data[i+1];
-        // }
-        // color_buffer_data[i+2] = rand() % 256;
-        // color_buffer_data[i+2] /= 256.0;
-        // for (int j = i+5; j < i + 18; j+=3){
-        //     color_buffer_data[j] = color_buffer_data[i+2];
-        // }
+        color_buffer_data[i] = rand() % 256;
+        color_buffer_data[i] /= 256.0;
+        for (int j = i+3; j < i + 9; j+=3){
+            color_buffer_data[j] = color_buffer_data[i];
+        }
+        color_buffer_data[i+1] = rand() % 256;
+        color_buffer_data[i+1] /= 256.0;
+        for (int j = i+4; j < i + 9; j+=3){
+            color_buffer_data[j] = color_buffer_data[i+1];
+        }
+        color_buffer_data[i+2] = rand() % 256;
+        color_buffer_data[i+2] /= 256.0;
+        for (int j = i+5; j < i + 9; j+=3){
+            color_buffer_data[j] = color_buffer_data[i+2];
+        }
     }
     this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color_buffer_data, GL_FILL);
 
@@ -121,5 +121,13 @@ void Ball::tick() {
     this->rotation += speed;
     // this->position.x -= speed;
     // this->position.y -= speed;
+}
+
+
+
+HexagonalDipyramid::HexagonalDipyramid(float x, float y, color_t color)
+    : Ball(x, y, color)
+{
+    
 }
 
