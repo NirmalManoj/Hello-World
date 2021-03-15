@@ -73,12 +73,21 @@ void draw() {
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
+    int start_spin_ = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT);
+    int stop_spin_ = glfwGetKey(window, GLFW_KEY_LEFT_CONTROL);
     if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
         should_rotate = 1 - should_rotate;
     }
     if (left) {
         // Do something
         should_rotate = 1 - should_rotate;
+    }
+    if (start_spin_) {
+        // Spin object around an axis
+        ball1.start_spin();
+    }
+    if (stop_spin_) {
+        ball1.stop_spin();
     }
 }
 
