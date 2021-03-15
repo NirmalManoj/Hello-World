@@ -19,7 +19,7 @@ float camera_rotation_angle = 0;
 
 Timer t60(1.0 / 60);
 
-
+int camera_spot = 1;
 int should_rotate = 0;
 
 /* Render the scene with openGL */
@@ -48,7 +48,25 @@ void draw() {
     if (should_rotate){
         Matrices.view = glm::lookAt(glm::vec3(camX, 1.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
     } else {
-        Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+        // eye = glm::vec3(1, 1, 1);
+        // target = glm::vec3(0, 0, 0);
+        // up = glm::vec3(0, 1, 0);
+        if (camera_spot == 1 ){
+            eye = glm::vec3(1, 1, 1);
+            target = glm::vec3(0, 0, 0);
+            up = glm::vec3(0, 1, 0);
+            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+        } else if (camera_spot == 2){
+            eye = glm::vec3(1, 0.5, 1);
+            target = glm::vec3(0, 0, 0);
+            up = glm::vec3(0, 1, 0);
+            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+        } else if (camera_spot == 3){
+            eye = glm::vec3(0.5, 1, 0.5);
+            target = glm::vec3(0, 0, 0);
+            up = glm::vec3(0, 1, 0);
+            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+        }
     }
       
 
@@ -75,6 +93,9 @@ void tick_input(GLFWwindow *window) {
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
     int start_spin_ = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT);
     int stop_spin_ = glfwGetKey(window, GLFW_KEY_LEFT_CONTROL);
+    int cam1 = glfwGetKey(window, GLFW_KEY_F7);
+    int cam2 = glfwGetKey(window, GLFW_KEY_F8);
+    int cam3 = glfwGetKey(window, GLFW_KEY_F9);
     if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
         should_rotate = 1 - should_rotate;
     }
@@ -88,6 +109,15 @@ void tick_input(GLFWwindow *window) {
     }
     if (stop_spin_) {
         ball1.stop_spin();
+    }
+    if (cam1){
+        camera_spot = 1;
+    }
+    if (cam2){
+        camera_spot = 2;
+    }
+    if (cam3){
+        camera_spot = 3;
     }
 }
 
