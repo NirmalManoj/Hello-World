@@ -67,7 +67,7 @@ void draw() {
         // target = glm::vec3(0, 0, 0);
         // up = glm::vec3(0, 1, 0);
         if (camera_spot == 1 ){
-            eye = glm::vec3(1, 1, 1);
+            eye = glm::vec3(0, 0, 3);
             target = glm::vec3(0, 0, 0);
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
@@ -122,7 +122,7 @@ void tick_input(GLFWwindow *window) {
     int key_s = glfwGetKey(window, GLFW_KEY_S);
     int key_d = glfwGetKey(window, GLFW_KEY_D);
     int key_e = glfwGetKey(window, GLFW_KEY_E);
-    int key_r = glfwGetKey(window, GLFW_KEY_F);
+    int key_r = glfwGetKey(window, GLFW_KEY_R);
 
     int key_i = glfwGetKey(window, GLFW_KEY_I);
     int key_j = glfwGetKey(window, GLFW_KEY_J);
@@ -154,6 +154,17 @@ void tick_input(GLFWwindow *window) {
         target += camera_speed * glm::vec3(1, 0, 0);
     }
 
+    if (key_e) {
+        camera_spot = 0;
+        eye += camera_speed * glm::vec3(0, 1, 0);
+        target += camera_speed * glm::vec3(0, 1, 0);
+    }
+
+    if (key_r) {
+        camera_spot = 0;
+        eye -= camera_speed * glm::vec3(0, 1, 0);
+        target -= camera_speed * glm::vec3(0, 1, 0);
+    }
 
     if (key_i){
         ball1.move_position(cameraFront*camera_speed);
