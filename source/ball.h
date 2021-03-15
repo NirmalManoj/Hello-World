@@ -3,8 +3,8 @@
 #ifndef BALL_H
 #define BALL_H
 
-
-class Ball {
+class Ball
+{
 public:
     Ball() {}
     Ball(float x, float y, color_t color);
@@ -20,17 +20,9 @@ public:
     void start_spin();
     void stop_spin();
     double speed;
+
 protected:
     VAO *object;
 };
-
-
-class HexagonalDipyramid : public Ball
-{
-public:
-    HexagonalDipyramid() {}
-    HexagonalDipyramid(float x, float y, color_t color);
-};
-
 
 #endif // BALL_H

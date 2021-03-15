@@ -122,12 +122,3 @@ void Ball::tick() {
     // this->position.x -= speed;
     // this->position.y -= speed;
 }
-
-
-
-HexagonalDipyramid::HexagonalDipyramid(float x, float y, color_t color)
-    : Ball(x, y, color)
-{
-    
-}
-

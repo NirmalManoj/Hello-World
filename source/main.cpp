@@ -1,7 +1,7 @@
 #include "main.h"
 #include "timer.h"
 #include "ball.h"
-// #include "hexagonal_dipyramid.h"
+#include "hexagonal_dipyramid.h"
 
 using namespace std;
 
