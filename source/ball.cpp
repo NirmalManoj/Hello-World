@@ -1,6 +1,8 @@
 #include "ball.h"
 #include "main.h"
 
+#define vt(tmp) tmp.x, tmp.y, tmp.z
+
 Ball::Ball(float x, float y, color_t color) {
     srand(time(0));
     this->position = glm::vec3(x, y, 0);
@@ -10,10 +12,15 @@ Ball::Ball(float x, float y, color_t color) {
     speed = 1;
     // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
+    
+    glm::vec3 v1(-1.0f,-1.0f,-1.0f);
+    glm::vec3 v2(-1.0f,-1.0f, 1.0f);
+    glm::vec3 v3(-1.0f, 1.0f, 1.0f);
+    
     static const GLfloat vertex_buffer_data[] = {
-        -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f, // triangle 1 : end
+        vt(v1), // triangle 1 : begin
+        vt(v2),
+        vt(v3), // triangle 1 : end
         1.0f, 1.0f,-1.0f, // triangle 2 : begin
         -1.0f,-1.0f,-1.0f,
         -1.0f, 1.0f,-1.0f, // triangle 2 : end
@@ -116,6 +123,10 @@ void Ball::stop_spin()
     this->spin_axis = 0;
 }
 
+float Ball::get_ang(float ang)
+{
+    return ang * M_PI / 180.0f;
+}
 
 void Ball::tick() {
     this->rotation += speed;

@@ -19,6 +19,7 @@ public:
     void tick();
     void start_spin();
     void stop_spin();
+    float get_ang(float x);
     double speed;
 
 protected:
