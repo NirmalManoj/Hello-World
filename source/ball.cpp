@@ -2,6 +2,7 @@
 #include "main.h"
 
 Ball::Ball(float x, float y, color_t color) {
+    srand(time(0));
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this->spin_axis = 0;
@@ -47,7 +48,16 @@ Ball::Ball(float x, float y, color_t color) {
         1.0f,-1.0f, 1.0f
     };
 
-    this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
+    // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
+
+    static GLfloat color_buffer_data[12*3*3];
+    for(int i = 0; i < 12*3*3; i++)
+    {
+        color_buffer_data[i] = rand() % 256;
+        color_buffer_data[i] /= 256.0;
+    }
+    this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color_buffer_data, GL_FILL);
+
 }
 
 void Ball::draw(glm::mat4 VP) {
