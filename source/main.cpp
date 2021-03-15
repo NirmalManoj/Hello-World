@@ -22,9 +22,19 @@ Timer t60(1.0 / 60);
 int camera_spot = 1;
 int should_rotate = 0;
 
+// Eye - Location of camera. Don't change unless you are sure!!
+// glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+glm::vec3 eye (1, 1, 1);
+// Target - Where is the camera looking at.  Don't change unless you are sure!!
+glm::vec3 target (0, 0, 0);
+// Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
+glm::vec3 up (0, 1, 0);
+glm::vec3 cameraFront (0.0f, 0.0f, -1.0f);
+
 /* Render the scene with openGL */
 /* Edit this function according to your assignment */
 void draw() {
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // clear the color and depth in the frame buffer
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -32,13 +42,13 @@ void draw() {
     // Don't change unless you know what you are doing
     glUseProgram (programID);
 
-    // Eye - Location of camera. Don't change unless you are sure!!
-    // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    glm::vec3 eye (1, 1, 1);
-    // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    glm::vec3 target (0, 0, 0);
-    // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
-    glm::vec3 up (0, 1, 0);
+    // // Eye - Location of camera. Don't change unless you are sure!!
+    // // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    // glm::vec3 eye (1, 1, 1);
+    // // Target - Where is the camera looking at.  Don't change unless you are sure!!
+    // glm::vec3 target (0, 0, 0);
+    // // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
+    // glm::vec3 up (0, 1, 0);
 
 
     const float radius = 10.0f;
@@ -46,7 +56,12 @@ void draw() {
     float camZ = cos(glfwGetTime()) * radius;
     // glm::mat4 view;
     if (should_rotate){
-        Matrices.view = glm::lookAt(glm::vec3(camX, 1.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+        if (camera_spot != 0 ||true){
+            eye = glm::vec3(camX, 1.0, camZ);
+            target = glm::vec3(0.0, 0.0, 0.0);
+            up = glm::vec3(0.0, 1.0, 0.0);
+        }
+        Matrices.view = glm::lookAt( eye, target, up );
     } else {
         // eye = glm::vec3(1, 1, 1);
         // target = glm::vec3(0, 0, 0);
@@ -62,9 +77,11 @@ void draw() {
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         } else if (camera_spot == 3){
-            eye = glm::vec3(0.5, 1, 0.5);
+            eye = glm::vec3(0, 0, 1);
             target = glm::vec3(0, 0, 0);
             up = glm::vec3(0, 1, 0);
+            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+        } else if (camera_spot == 0) {
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         }
     }
@@ -96,8 +113,46 @@ void tick_input(GLFWwindow *window) {
     int cam1 = glfwGetKey(window, GLFW_KEY_F7);
     int cam2 = glfwGetKey(window, GLFW_KEY_F8);
     int cam3 = glfwGetKey(window, GLFW_KEY_F9);
-    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
-        should_rotate = 1 - should_rotate;
+
+    int start_rotate = glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT);
+    int stop_rotate = glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
+
+    int key_w = glfwGetKey(window, GLFW_KEY_W);
+    int key_a = glfwGetKey(window, GLFW_KEY_A);
+    int key_s = glfwGetKey(window, GLFW_KEY_S);
+    int key_d = glfwGetKey(window, GLFW_KEY_D);
+    int key_e = glfwGetKey(window, GLFW_KEY_E);
+    int key_r = glfwGetKey(window, GLFW_KEY_F);
+
+    const float camera_speed = 0.05f;
+    if (key_w) {
+        camera_spot = 0;
+        eye += camera_speed * cameraFront;
+        target += camera_speed * cameraFront;
+    }
+    if (key_s) {
+        camera_spot = 0;
+        eye -= camera_speed * cameraFront;
+        target -= camera_speed * cameraFront;
+
+    }
+    if (key_a) {
+        camera_spot = 0;
+        eye -= camera_speed * glm::vec3(1, 0, 0);
+        target -= camera_speed * glm::vec3(1, 0, 0);
+    }
+    if (key_d) {
+        camera_spot = 0;
+        eye += camera_speed * glm::vec3(1, 0, 0);
+        target += camera_speed * glm::vec3(1, 0, 0);
+    }
+
+    if (start_rotate){
+        camera_spot = 1;
+        should_rotate = 1;
+    }
+    if (stop_rotate) {
+        should_rotate = 0;
     }
     if (left) {
         // Do something
