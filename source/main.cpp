@@ -19,6 +19,9 @@ float camera_rotation_angle = 0;
 
 Timer t60(1.0 / 60);
 
+
+int should_rotate = 0;
+
 /* Render the scene with openGL */
 /* Edit this function according to your assignment */
 void draw() {
@@ -42,7 +45,12 @@ void draw() {
     float camX = sin(glfwGetTime()) * radius;
     float camZ = cos(glfwGetTime()) * radius;
     // glm::mat4 view;
-    Matrices.view = glm::lookAt(glm::vec3(camX, 1.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));  
+    if (should_rotate){
+        Matrices.view = glm::lookAt(glm::vec3(camX, 1.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+    } else {
+        Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    }
+      
 
     // Compute Camera matrix (view)
     // Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
@@ -65,8 +73,12 @@ void draw() {
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
+    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
+        should_rotate = 1 - should_rotate;
+    }
     if (left) {
         // Do something
+        should_rotate = 1 - should_rotate;
     }
 }
 
