@@ -30,7 +30,8 @@ void draw() {
     glUseProgram (programID);
 
     // Eye - Location of camera. Don't change unless you are sure!!
-    glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    glm::vec3 eye (1, 1, 1);
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -64,7 +65,7 @@ void tick_input(GLFWwindow *window) {
 
 void tick_elements() {
     ball1.tick();
-    camera_rotation_angle += 1;
+    // camera_rotation_angle += 1;
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -108,26 +109,28 @@ int main(int argc, char **argv) {
 
     /* Draw in loop */
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-        // Boiler below
-        // // Process timers
-
-        // if (t60.processTick()) {
-        //     // 60 fps
-        //     // OpenGL Draw commands
-        //     draw();
-        //     // Swap Frame Buffer in double buffering
-        //     glfwSwapBuffers(window);
-
-        //     tick_elements();
-        //     tick_input(window);
-        // }
-
-        // // Poll for Keyboard and mouse events
+        // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        // glClear(GL_COLOR_BUFFER_BIT);
+        // glDrawArrays(GL_TRIANGLES, 0, 3);
+        // glfwSwapBuffers(window);
         // glfwPollEvents();
+        // Boiler below
+        
+        // Process timers
+
+        if (t60.processTick()) {
+            // 60 fps
+            // OpenGL Draw commands
+            draw();
+            // Swap Frame Buffer in double buffering
+            glfwSwapBuffers(window);
+
+            tick_elements();
+            tick_input(window);
+        }
+
+        // Poll for Keyboard and mouse events
+        glfwPollEvents();
     }
 
     quit(window);
