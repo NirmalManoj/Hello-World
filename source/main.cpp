@@ -56,15 +56,15 @@ void draw() {
     // glm::vec3 up (0, 1, 0);
 
 
-    const float radius = 10.0f;
+    const float radius = 3.0f;
     float camX = sin(glfwGetTime()) * radius;
     float camZ = cos(glfwGetTime()) * radius;
     // glm::mat4 view;
     if (should_rotate){
-        if (camera_spot != 0 ||true){
-            eye = glm::vec3(camX, 1.0, camZ);
+        if (camera_spot != 0 || true){
+            eye = glm::vec3(camX, 0.7, camZ);
             target = glm::vec3(0.0, 0.0, 0.0);
-            up = glm::vec3(0.0, 1.0, 0.0);
+            up = glm::vec3(0.0, 1.0, 0.1);
         }
         Matrices.view = glm::lookAt( eye, target, up );
     } else {
