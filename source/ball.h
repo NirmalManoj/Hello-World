@@ -14,6 +14,7 @@ public:
     int spin_axis;
     void draw(glm::mat4 VP);
     void move_position(glm::vec3 x);
+    glm::vec3 get_position();
     void set_position(float x, float y);
     void reset_position();
     void tick();

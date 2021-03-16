@@ -101,6 +101,11 @@ void Ball::draw(glm::mat4 VP) {
     draw3DObject(this->object);
 }
 
+glm::vec3 Ball::get_position() {
+    return this->position;
+}
+
+
 void Ball::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }

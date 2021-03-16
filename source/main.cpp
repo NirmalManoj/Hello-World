@@ -73,17 +73,17 @@ void draw() {
         // up = glm::vec3(0, 1, 0);
         if (camera_spot == 1 ){
             eye = glm::vec3(0, 0, 3);
-            target = glm::vec3(0, 0, 0);
+            // target = ball1.get_position();
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         } else if (camera_spot == 2){
             eye = glm::vec3(1, 0.5, 1);
-            target = glm::vec3(0, 0, 0);
+            // target = ball1.get_position();
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         } else if (camera_spot == 3){
             eye = glm::vec3(0, 2, 3);
-            target = glm::vec3(0, 0, 0);
+            // target = ball1.get_position();
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         } else if (camera_spot == 0) {
@@ -210,12 +210,18 @@ void tick_input(GLFWwindow *window) {
         ball1.stop_spin();
     }
     if (cam1){
+        // ball1.reset_position();
+            target = ball1.get_position();
         camera_spot = 1;
     }
     if (cam2){
+        // ball1.reset_position();
+            target = ball1.get_position();
         camera_spot = 2;
     }
     if (cam3){
+        // ball1.reset_position();
+            target = ball1.get_position();
         camera_spot = 3;
     }
 }
@@ -287,8 +293,8 @@ int main(int argc, char **argv) {
         }
     }
     
-    int width  = 600;
-    int height = 600;
+    int width  = 1800;
+    int height = 1000;
 
     window = initGLFW(width, height);
 
