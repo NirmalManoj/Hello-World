@@ -82,7 +82,7 @@ void draw() {
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         } else if (camera_spot == 3){
-            eye = glm::vec3(0, 0, 1);
+            eye = glm::vec3(0, 2, 3);
             target = glm::vec3(0, 0, 0);
             up = glm::vec3(0, 1, 0);
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
