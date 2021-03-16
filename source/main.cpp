@@ -191,6 +191,7 @@ void tick_input(GLFWwindow *window) {
     }
 
     if (start_rotate){
+        ball1.reset_position();
         camera_spot = 1;
         should_rotate = 1;
     }
