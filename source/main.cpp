@@ -4,6 +4,7 @@
 #include "hexagonal_dipyramid.h"
 #include "decagonal_prism.h"
 #include "undecagonal_pyramid.h"
+#include <string>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ GLFWwindow *window;
 * Customizable functions *
 **************************/
 
-UndecagonalPyramid ball1;
+Ball ball1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -25,6 +26,7 @@ Timer t60(1.0 / 60);
 int camera_spot = 1;
 int should_rotate = 0;
 
+int select_model = 0;
 // Eye - Location of camera. Don't change unless you are sure!!
 // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
 glm::vec3 eye (1, 1, 1);
@@ -222,13 +224,26 @@ void tick_elements() {
     // camera_rotation_angle += 1;
 }
 
+
+void chooseModel() {
+    if (select_model == 0){
+        ball1 = Ball(0, 0, COLOR_GREEN);
+    } else if(select_model == 1) {
+        ball1 = HexagonalDipyramid(0, 0, COLOR_GREEN);
+    } else if(select_model == 2) {
+        ball1 = DecagonalPrism(0, 0, COLOR_GREEN);
+    } else if(select_model == 3) {
+        ball1 = UndecagonalPyramid(0, 0, COLOR_GREEN);
+    }
+}
+
 /* Initialize the OpenGL rendering properties */
 /* Add all the models to be created here */
 void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
-
-    ball1       = UndecagonalPyramid(0, 0, COLOR_GREEN);
+    
+    chooseModel();
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("../source/shaders/shader.vert", "../source/shaders/shader.frag");
@@ -254,6 +269,23 @@ void initGL(GLFWwindow *window, int width, int height) {
 
 int main(int argc, char **argv) {
     srand(time(0));
+    
+    if (argc >= 2) {
+        // cerr << "Hello: " << argv[1] << "\n\n\n";
+        select_model = stoi(argv[1]);
+    } else {
+        cout << "Models available:\n";
+        cout << "1. Hexagonal Dipyramid.\n";
+        cout << "2. Decagonal Prism.\n";
+        cout << "3. Undecagonal Pyramid.\n";
+        cout << "Please enter the model number you want to choose: ";
+        cin >> select_model;
+        if (select_model < 1 || select_model > 3) {
+            select_model = 2;
+            cout << "You have entered an incorrect model number, so going with Decagonal Prism.\n";
+        }
+    }
+    
     int width  = 600;
     int height = 600;
 
