@@ -39,6 +39,9 @@ void error_callback(int error, const char *description);
 void quit(GLFWwindow *window);
 void reshapeWindow(GLFWwindow *window, int width, int height);
 
+void make_maze(int height, int width);
+void carve_passages_from(int cx, int cy, std::vector<std::vector<int>> &grid);
+
 // Types
 struct VAO {
     GLuint VertexArrayID;

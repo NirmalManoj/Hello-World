@@ -33,6 +33,7 @@ const int W = 8;
 map<int, int> dx;
 map<int, int> dy;
 map<int, int> opposite;
+vector<vector<int> > maze_layout;
 // dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
 // dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
 
@@ -307,7 +308,13 @@ int main(int argc, char **argv) {
     dy[E]=0;dy[W]=0;dy[N]=-1;dy[S]=1;
     opposite[E]=W;opposite[W]=E;
     opposite[N]=S;opposite[S]=N;
-
+    make_maze(10, 10);
+        for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            cout << maze_layout[i][j] << " ";
+        }cout << "\n";
+    }
+    return 0;
     if (argc >= 2) {
         // cerr << "Hello: " << argv[1] << "\n\n\n";
         select_model = stoi(argv[1]);
@@ -374,6 +381,24 @@ void reset_screen() {
 }
 
 
+void carve_passages_from(int cx, int cy, vector<vector<int>> &grid){
+        vector<int> dir;
+    dir.push_back(N);
+    dir.push_back(S);
+    dir.push_back(E);
+    dir.push_back(W);
+    shuffle(dir.begin(), dir.end(), e);
+    for(auto direction: dir){
+        int nx = cx + dx[direction];
+        int ny = cy + dy[direction];
+        if (0 <= ny && ny < grid.size() && 0 <= nx && nx < grid[ny].size() && grid[ny][nx]==0){
+            grid[cy][cx] |= direction;
+            grid[ny][nx] |= opposite[direction];
+            carve_passages_from(nx, ny, grid);// Probably buggy
+        }
+    }
+}
+
 void make_maze(int height, int width) {
     vector<int> dir;
     dir.push_back(N);
@@ -381,4 +406,11 @@ void make_maze(int height, int width) {
     dir.push_back(E);
     dir.push_back(W);
     vector<vector<int>> grid(height, vector<int>(width, 0));
+    carve_passages_from(0, 0, grid);
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
+            cout << grid[i][j] << " ";
+        }cout << "\n";
+    }
+    maze_layout = vector<vector<int>>(grid.begin(), grid.end());
 }
