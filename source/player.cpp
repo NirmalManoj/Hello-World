@@ -53,25 +53,84 @@ Player::Player(float x, float y, color_t color)
 
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
     const float unit = 0.05f;
-    glm::vec3 v1(-unit, unit, 0);
-    glm::vec3 v2(unit, unit, 0);
-    glm::vec3 v3(-unit, -unit, 0);
-    glm::vec3 v4(unit, -unit, 0);
+    glm::vec3 v1(-unit, -unit, 0);
+    glm::vec3 v2(-0.01, -unit, 0);
+    glm::vec3 v3(-0.01, -unit+0.01, 0);
+    glm::vec3 v4(-unit, -unit+0.01, 0);
+
+    glm::vec3 v5(0.01, -unit, 0);
+    glm::vec3 v6(unit, -unit, 0);
+    glm::vec3 v7(unit, -unit+0.01, 0);
+    glm::vec3 v8(0.01, -unit+0.01, 0);
+
+    glm::vec3 v9(unit, unit-0.01, 0);
+    glm::vec3 v10(-unit, unit-0.01, 0);
+
+    glm::vec3 v11(-unit-0.01, -unit+0.015, 0);
+    glm::vec3 v12(-unit-0.01, unit-0.015, 0);
+    
+    glm::vec3 v13(-0.025, unit-0.035, 0);
+    glm::vec3 v14(0.025, unit-0.035, 0);
+    glm::vec3 v15(0.025, unit-0.01, 0);
+    glm::vec3 v16(-0.025, unit-0.01, 0);
+    
     
     static const GLfloat vertex_buffer_data[] = {
         tri(v1, v2, v3),
-        tri(v2, v3, v4)
+        tri(v1, v3, v4),
+        tri(v5, v8, v7),
+        tri(v5, v6, v7),
+        tri(v9, v10, v4),
+        tri(v9, v7, v4),
+        tri(v10, v11, v4),
+        tri(v10, v11, v12),
+        tri(v13, v14, v15),
+        tri(v13, v15, v16)
     };
 
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
-    const int NO_VETIC = 4;
-    static GLfloat color_buffer_data[NO_VETIC*3*3];
-    for(int i = 0; i < NO_VETIC*3*3; i+=3)
+    const int NO_TRI = 10;
+    static GLfloat color_buffer_data[NO_TRI*3*3];
+    for(int i = 0; i < 4*3*3; i+=3)
     {
-        color_buffer_data[i] = 150.9;
-        color_buffer_data[i+1] = 190.9;
-        color_buffer_data[i+2] = 240.9;
+        // Grey white
+        color_buffer_data[i] = 212.9;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 193.9;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 108.9;
+        color_buffer_data[i+2] /= 256.0;
     }
-    this->object = create3DObject(GL_TRIANGLES, NO_VETIC*3, vertex_buffer_data, color_buffer_data, GL_FILL);
+    for(int i = 4*3*3; i < 6*3*3; i+=3)
+    {
+        // Green
+        color_buffer_data[i] = 19.0;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 214.0;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 52.0;
+        color_buffer_data[i+2] /= 256.0;
+    }
+    for(int i = 6*3*3; i < 8*3*3; i+=3)
+    {
+        // Blue
+        color_buffer_data[i] = 35.0;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 180.0;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 252.0;
+        color_buffer_data[i+2] /= 256.0;
+    }
+    for(int i = 8*3*3; i < 10*3*3; i+=3)
+    {
+        // Green
+        color_buffer_data[i] = 0.0;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 158.0;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 201.0;
+        color_buffer_data[i+2] /= 256.0;
+    }
+    this->object = create3DObject(GL_TRIANGLES, NO_TRI*3, vertex_buffer_data, color_buffer_data, GL_FILL);
 
 }

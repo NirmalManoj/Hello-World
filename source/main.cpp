@@ -84,7 +84,7 @@ void draw() {
 
     // Eye - Location of camera. Don't change unless you are sure!!
     // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    glm::vec3 eye (0, 0, 1);
+    glm::vec3 eye (0, 0, 0.5);
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -328,6 +328,7 @@ void tick_elements() {
 void chooseModel() {
     if (select_model == 0){
         // ball1 = Ball(0, 0, COLOR_GREEN);
+        // ball1 = HexagonalDipyramid(-0.675f, 0.675f, COLOR_GREEN);
         ball1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
     } else if(select_model == 1) {
