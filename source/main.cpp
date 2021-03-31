@@ -47,8 +47,8 @@ std::default_random_engine e(seed);
 
 Ball ball1;
 // Maze
-// Maze maze1;
-Ball maze1;
+Maze maze1;
+// Ball maze1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -79,49 +79,49 @@ void draw() {
     // Don't change unless you know what you are doing
     glUseProgram (programID);
 
-    // // Eye - Location of camera. Don't change unless you are sure!!
-    // // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    // glm::vec3 eye (0, 0, 1);
-    // // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    // glm::vec3 target (0, 0, 0);
-    // // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
-    // glm::vec3 up (0, 1, 0);
+    // Eye - Location of camera. Don't change unless you are sure!!
+    // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    glm::vec3 eye (0, 0, 1);
+    // Target - Where is the camera looking at.  Don't change unless you are sure!!
+    glm::vec3 target (0, 0, 0);
+    // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
+    glm::vec3 up (0, 1, 0);
 
 
-    const float radius = 3.0f;
-    float camX = sin(glfwGetTime()) * radius;
-    float camZ = cos(glfwGetTime()) * radius;
-    // glm::mat4 view;
-    if (should_rotate){
-        if (camera_spot != 0 || true){
-            eye = glm::vec3(camX, 0.7, camZ);
-            target = glm::vec3(0.0, 0.0, 0.0);
-            up = glm::vec3(0.0, 1.0, 0.1);
-        }
-        Matrices.view = glm::lookAt( eye, target, up );
-    } else {
-        // eye = glm::vec3(1, 1, 1);
-        // target = glm::vec3(0, 0, 0);
-        // up = glm::vec3(0, 1, 0);
-        if (camera_spot == 1 ){
-            eye = glm::vec3(0, 0, 3);
-            // target = ball1.get_position();
-            up = glm::vec3(0, 1, 0);
-            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
-        } else if (camera_spot == 2){
-            eye = glm::vec3(1, 0.5, 1);
-            // target = ball1.get_position();
-            up = glm::vec3(0, 1, 0);
-            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
-        } else if (camera_spot == 3){
-            eye = glm::vec3(0, 2, 3);
-            // target = ball1.get_position();
-            up = glm::vec3(0, 1, 0);
-            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
-        } else if (camera_spot == 0) {
-            Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
-        }
-    }
+    // const float radius = 3.0f;
+    // float camX = sin(glfwGetTime()) * radius;
+    // float camZ = cos(glfwGetTime()) * radius;
+    // // glm::mat4 view;
+    // if (should_rotate){
+    //     if (camera_spot != 0 || true){
+    //         eye = glm::vec3(camX, 0.7, camZ);
+    //         target = glm::vec3(0.0, 0.0, 0.0);
+    //         up = glm::vec3(0.0, 1.0, 0.1);
+    //     }
+    //     Matrices.view = glm::lookAt( eye, target, up );
+    // } else {
+    //     // eye = glm::vec3(1, 1, 1);
+    //     // target = glm::vec3(0, 0, 0);
+    //     // up = glm::vec3(0, 1, 0);
+    //     if (camera_spot == 1 ){
+    //         eye = glm::vec3(0, 0, 3);
+    //         // target = ball1.get_position();
+    //         up = glm::vec3(0, 1, 0);
+    //         Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    //     } else if (camera_spot == 2){
+    //         eye = glm::vec3(1, 0.5, 1);
+    //         // target = ball1.get_position();
+    //         up = glm::vec3(0, 1, 0);
+    //         Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    //     } else if (camera_spot == 3){
+    //         eye = glm::vec3(0, 2, 3);
+    //         // target = ball1.get_position();
+    //         up = glm::vec3(0, 1, 0);
+    //         Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    //     } else if (camera_spot == 0) {
+    //         Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    //     }
+    // }
     // Compute Camera matrix (view)
     Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
     // Don't change unless you are sure!!
@@ -269,6 +269,7 @@ void tick_elements() {
 void chooseModel() {
     if (select_model == 0){
         ball1 = Ball(0, 0, COLOR_GREEN);
+        maze1 = Maze(0, 0, COLOR_GREEN);
     } else if(select_model == 1) {
         ball1 = HexagonalDipyramid(0, 0, COLOR_GREEN);
     } else if(select_model == 2) {
