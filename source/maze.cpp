@@ -36,7 +36,7 @@ Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid)
     // glm::vec3 v3(-1.0f, -1.0f, 0);
     // glm::vec3 v4(1, -1.0f, 0);
     
-    // static const GLfloat vertex_buffer_data[] = {
+    // static const GLfloat vertex_buffer_data[] =   {
     //     vt(v1), // Line 1 : begin
     //     vt(v2),
     //     vt(v1),

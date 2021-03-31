@@ -1,7 +1,7 @@
 #include "main.h"
 #include "ball.h"
 #ifndef DECAGONAL_PRISM_H
-#define HEXAGONAL_DIPYRAMID_H
+#define DECAGONAL_PRISM_H
 
 class DecagonalPrism : public Ball
 {

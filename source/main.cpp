@@ -5,6 +5,7 @@
 #include "decagonal_prism.h"
 #include "undecagonal_pyramid.h"
 #include "maze.h"
+#include "player.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -81,7 +82,7 @@ void draw() {
 
     // Eye - Location of camera. Don't change unless you are sure!!
     // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    glm::vec3 eye (0, 0, 2);
+    glm::vec3 eye (0, 0, 1);
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -139,7 +140,10 @@ void draw() {
     // Scene render
     // maze1.draw();
     // cout << "HI1\n";
+    
     maze1.draw(VP);
+    ball1.draw(VP);
+
     // maze1.draw();
     // cout << "HI2\n";
 }
@@ -269,7 +273,8 @@ void tick_elements() {
 
 void chooseModel() {
     if (select_model == 0){
-        ball1 = Ball(0, 0, COLOR_GREEN);
+        // ball1 = Ball(0, 0, COLOR_GREEN);
+        ball1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
     } else if(select_model == 1) {
         ball1 = HexagonalDipyramid(0, 0, COLOR_GREEN);
