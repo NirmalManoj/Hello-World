@@ -13,74 +13,30 @@ Maze::Maze(float x, float y, color_t color) {
     // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     
-    glm::vec3 v1(-1.0f,-1.0f,-1.0f);
-    glm::vec3 v2(-1.0f,-1.0f, 1.0f);
-    glm::vec3 v3(-1.0f, 1.0f, 1.0f);
+    glm::vec3 v1(-1, 1, 0);
+    glm::vec3 v2(1, 1, 0);
+    glm::vec3 v3(-1.0f, -1.0f, 0);
+    glm::vec3 v4(1, -1.0f, 0);
     
     static const GLfloat vertex_buffer_data[] = {
-        vt(v1), // triangle 1 : begin
+        vt(v1), // Line 1 : begin
         vt(v2),
-        vt(v3), // triangle 1 : end
-        1.0f, 1.0f,-1.0f, // triangle 2 : begin
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f, // triangle 2 : end
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
+        vt(v1),
+        vt(v3),
+        vt(v2),
+        vt(v4),
+        vt(v3),
+        vt(v4)
     };
 
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
-
-    static GLfloat color_buffer_data[12*3*3];
-    for(int i = 0; i < 12*3*3; i+=9)
+    const int NO_VETIC = 4;
+    static GLfloat color_buffer_data[NO_VETIC*2*3];
+    for(int i = 0; i < NO_VETIC*2*3; i+=1)
     {
-        color_buffer_data[i] = rand() % 256;
-        color_buffer_data[i] /= 256.0;
-        color_buffer_data[i] = rand() % 256;
-        color_buffer_data[i] /= 256.0;
-        for (int j = i+3; j < i + 9; j+=3){
-            color_buffer_data[j] = color_buffer_data[i];
-        }
-        color_buffer_data[i+1] = rand() % 256;
-        color_buffer_data[i+1] /= 256.0;
-        for (int j = i+4; j < i + 9; j+=3){
-            color_buffer_data[j] = color_buffer_data[i+1];
-        }
-        color_buffer_data[i+2] = rand() % 256;
-        color_buffer_data[i+2] /= 256.0;
-        for (int j = i+5; j < i + 9; j+=3){
-            color_buffer_data[j] = color_buffer_data[i+2];
-        }
+        color_buffer_data[i] = 123.9;
     }
-    this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color_buffer_data, GL_FILL);
-
+    this->object = create3DObject(GL_LINES, NO_VETIC*3, vertex_buffer_data, color_buffer_data, GL_FILL);
 }
 
 void Maze::draw(glm::mat4 VP) {
