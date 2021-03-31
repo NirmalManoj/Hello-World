@@ -4,6 +4,7 @@
 #include "hexagonal_dipyramid.h"
 #include "decagonal_prism.h"
 #include "undecagonal_pyramid.h"
+#include "maze.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -45,6 +46,9 @@ std::default_random_engine e(seed);
 **************************/
 
 Ball ball1;
+// Maze
+// Maze maze1;
+Ball maze1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -77,7 +81,7 @@ void draw() {
 
     // // Eye - Location of camera. Don't change unless you are sure!!
     // // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    // glm::vec3 eye (1, 1, 1);
+    // glm::vec3 eye (0, 0, 1);
     // // Target - Where is the camera looking at.  Don't change unless you are sure!!
     // glm::vec3 target (0, 0, 0);
     // // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -118,10 +122,8 @@ void draw() {
             Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
         }
     }
-      
-
     // Compute Camera matrix (view)
-    // Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
     // Don't change unless you are sure!!
     // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
 
@@ -135,7 +137,10 @@ void draw() {
     glm::mat4 MVP;  // MVP = Projection * View * Model
 
     // Scene render
-    ball1.draw(VP);
+    // maze1.draw();
+    cout << "HI1\n";
+    maze1.draw(VP);
+    cout << "HI2\n";
 }
 
 void tick_input(GLFWwindow *window) {
@@ -166,97 +171,98 @@ void tick_input(GLFWwindow *window) {
 
     const float camera_speed = 0.05f;
     if (key_w) {
-        camera_spot = 0;
-        eye += camera_speed * cameraFront;
-        target += camera_speed * cameraFront;
+        // camera_spot = 0;
+        // eye += camera_speed * cameraFront;
+        // target += camera_speed * cameraFront;
     }
     if (key_s) {
-        camera_spot = 0;
-        eye -= camera_speed * cameraFront;
-        target -= camera_speed * cameraFront;
+    //     camera_spot = 0;
+    //     eye -= camera_speed * cameraFront;
+    //     target -= camera_speed * cameraFront;
 
     }
     if (key_a) {
-        camera_spot = 0;
-        eye -= camera_speed * glm::vec3(1, 0, 0);
-        target -= camera_speed * glm::vec3(1, 0, 0);
+        // camera_spot = 0;
+        // eye -= camera_speed * glm::vec3(1, 0, 0);
+        // target -= camera_speed * glm::vec3(1, 0, 0);
     }
     if (key_d) {
-        camera_spot = 0;
-        eye += camera_speed * glm::vec3(1, 0, 0);
-        target += camera_speed * glm::vec3(1, 0, 0);
+        // camera_spot = 0;
+        // eye += camera_speed * glm::vec3(1, 0, 0);
+        // target += camera_speed * glm::vec3(1, 0, 0);
     }
 
-    if (key_e) {
-        camera_spot = 0;
-        eye += camera_speed * glm::vec3(0, 1, 0);
-        target += camera_speed * glm::vec3(0, 1, 0);
-    }
+    // if (key_e) {
+    //     camera_spot = 0;
+    //     eye += camera_speed * glm::vec3(0, 1, 0);
+    //     target += camera_speed * glm::vec3(0, 1, 0);
+    // }
 
-    if (key_r) {
-        camera_spot = 0;
-        eye -= camera_speed * glm::vec3(0, 1, 0);
-        target -= camera_speed * glm::vec3(0, 1, 0);
-    }
+    // if (key_r) {
+    //     camera_spot = 0;
+    //     eye -= camera_speed * glm::vec3(0, 1, 0);
+    //     target -= camera_speed * glm::vec3(0, 1, 0);
+    // }
 
-    if (key_i){
-        ball1.move_position(cameraFront*camera_speed);
-    }
-    if (key_k){
-        ball1.move_position(-1.0f*cameraFront*camera_speed);
-    }
-    if (key_j){
-        ball1.move_position(-1.0f*glm::vec3(1, 0, 0)*camera_speed);
-    }
-    if (key_l){
-        ball1.move_position(1.0f*glm::vec3(1, 0, 0)*camera_speed);
-    }
-    if (key_o){
-        ball1.move_position(1.0f*glm::vec3(0, 1, 0)*camera_speed);
-    }
-    if (key_p){
-        ball1.move_position(-1.0f*glm::vec3(0, 1, 0)*camera_speed);
-    }
+    // if (key_i){
+    //     ball1.move_position(cameraFront*camera_speed);
+    // }
+    // if (key_k){
+    //     ball1.move_position(-1.0f*cameraFront*camera_speed);
+    // }
+    // if (key_j){
+    //     ball1.move_position(-1.0f*glm::vec3(1, 0, 0)*camera_speed);
+    // }
+    // if (key_l){
+    //     ball1.move_position(1.0f*glm::vec3(1, 0, 0)*camera_speed);
+    // }
+    // if (key_o){
+    //     ball1.move_position(1.0f*glm::vec3(0, 1, 0)*camera_speed);
+    // }
+    // if (key_p){
+    //     ball1.move_position(-1.0f*glm::vec3(0, 1, 0)*camera_speed);
+    // }
 
-    if (start_rotate){
-        ball1.reset_position();
-        camera_spot = 1;
-        should_rotate = 1;
-    }
-    if (stop_rotate) {
-        should_rotate = 0;
-    }
-    if (left) {
-        // Do something
-        should_rotate = 1 - should_rotate;
-    }
-    if (start_spin_) {
-        // Spin object around an axis
-        ball1.start_spin();
-    }
-    if (stop_spin_) {
-        ball1.stop_spin();
-    }
-    if (cam1){
-        // ball1.reset_position();
-            target = ball1.get_position();
-        camera_spot = 1;
-    }
-    if (cam2){
-        // ball1.reset_position();
-            target = ball1.get_position();
-        camera_spot = 2;
-    }
-    if (cam3){
-        // ball1.reset_position();
-            target = ball1.get_position();
-        camera_spot = 3;
-    }
+    // if (start_rotate){
+    //     ball1.reset_position();
+    //     camera_spot = 1;
+    //     should_rotate = 1;
+    // }
+    // if (stop_rotate) {
+    //     should_rotate = 0;
+    // }
+    // if (left) {
+    //     // Do something
+    //     should_rotate = 1 - should_rotate;
+    // }
+    // if (start_spin_) {
+    //     // Spin object around an axis
+    //     ball1.start_spin();
+    // }
+    // if (stop_spin_) {
+    //     ball1.stop_spin();
+    // }
+    // if (cam1){
+    //     // ball1.reset_position();
+    //         target = ball1.get_position();
+    //     camera_spot = 1;
+    // }
+    // if (cam2){
+    //     // ball1.reset_position();
+    //         target = ball1.get_position();
+    //     camera_spot = 2;
+    // }
+    // if (cam3){
+    //     // ball1.reset_position();
+    //         target = ball1.get_position();
+    //     camera_spot = 3;
+    // }
 }
 
 void tick_elements() {
-    ball1.tick();
+    // ball1.tick();
     // camera_rotation_angle += 1;
+    maze1.tick();
 }
 
 
@@ -314,22 +320,22 @@ int main(int argc, char **argv) {
             cout << maze_layout[i][j] << " ";
         }cout << "\n";
     }
-    return 0;
-    if (argc >= 2) {
-        // cerr << "Hello: " << argv[1] << "\n\n\n";
-        select_model = stoi(argv[1]);
-    } else {
-        cout << "Models available:\n";
-        cout << "1. Hexagonal Dipyramid.\n";
-        cout << "2. Decagonal Prism.\n";
-        cout << "3. Undecagonal Pyramid.\n";
-        cout << "Please enter the model number you want to choose: ";
-        cin >> select_model;
-        if (select_model < 1 || select_model > 3) {
-            select_model = 2;
-            cout << "You have entered an incorrect model number, so going with Decagonal Prism.\n";
-        }
-    }
+    // return 0;
+    // if (argc >= 2) {
+    //     // cerr << "Hello: " << argv[1] << "\n\n\n";
+    //     select_model = stoi(argv[1]);
+    // } else {
+    //     cout << "Models available:\n";
+    //     cout << "1. Hexagonal Dipyramid.\n";
+    //     cout << "2. Decagonal Prism.\n";
+    //     cout << "3. Undecagonal Pyramid.\n";
+    //     cout << "Please enter the model number you want to choose: ";
+    //     cin >> select_model;
+    //     if (select_model < 1 || select_model > 3) {
+    //         select_model = 2;
+    //         cout << "You have entered an incorrect model number, so going with Decagonal Prism.\n";
+    //     }
+    // }
     
     int width  = 1800;
     int height = 1000;
