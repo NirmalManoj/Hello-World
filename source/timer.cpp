@@ -14,3 +14,12 @@ bool Timer::processTick() {
     } else
         return false;
 }
+
+bool Timer::processMove() {
+    double cur = glfwGetTime();
+    if (cur - prev_move >= 0.2) {
+        prev_move = cur;
+        return true;
+    } else
+        return false;
+}

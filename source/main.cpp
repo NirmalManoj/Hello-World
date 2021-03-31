@@ -32,6 +32,8 @@ const int W = 8;
 // int dy[] = {0, 0, -1, 1};
         //  E, W,  N, S
 
+
+
 map<int, int> dx;
 map<int, int> dy;
 map<int, int> opposite;
@@ -148,6 +150,55 @@ void draw() {
     // cout << "HI2\n";
 }
 
+
+void move_north(){
+    glm::vec3 tmp = ball1.get_position();
+    int row = ((tmp.x+0.675f)/0.15f);
+    int col = ((-tmp.y+0.675f)/0.15f);
+    swap(row, col);
+    cout << "North from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
+    float unit = 0.15f;
+    if((maze_layout[row][col]&N)==N){
+        ball1.set_position(tmp.x, tmp.y + unit);
+    }
+}
+
+void move_south(){
+    glm::vec3 tmp = ball1.get_position();
+    int row = ((tmp.x+0.675f)/0.15f);
+    int col = ((-tmp.y+0.675f)/0.15f);
+    swap(row, col);
+    cout << "South from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
+    float unit = 0.15f;
+    if((maze_layout[row][col]&S)==S){
+        ball1.set_position(tmp.x, tmp.y - unit);
+    }
+}
+
+void move_east(){
+    glm::vec3 tmp = ball1.get_position();
+    int row = ((tmp.x+0.675f)/0.15f);
+    int col = ((-tmp.y+0.675f)/0.15f);
+    swap(row, col);
+    cout << "East from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
+    float unit = 0.15f;
+    if((maze_layout[row][col]&E)==E){
+        ball1.set_position(tmp.x + unit, tmp.y);
+    }
+}
+
+void move_west(){
+    glm::vec3 tmp = ball1.get_position();
+    int row = ((tmp.x+0.675f)/0.15f);
+    int col = ((-tmp.y+0.675f)/0.15f);
+    swap(row, col);
+    cout << "West from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
+    float unit = 0.15f;
+    if((maze_layout[row][col]&W)==W){
+        ball1.set_position(tmp.x - unit, tmp.y);
+    }
+}
+
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
@@ -175,26 +226,29 @@ void tick_input(GLFWwindow *window) {
     int key_p = glfwGetKey(window, GLFW_KEY_P);
 
     const float camera_speed = 0.05f;
-    if (key_w) {
+    if (key_w && t60.processMove()) {
         // camera_spot = 0;
         // eye += camera_speed * cameraFront;
         // target += camera_speed * cameraFront;
+        move_north();
     }
-    if (key_s) {
+    if (key_s && t60.processMove()) {
     //     camera_spot = 0;
     //     eye -= camera_speed * cameraFront;
     //     target -= camera_speed * cameraFront;
-
+        move_south();
     }
-    if (key_a) {
+    if (key_a && t60.processMove()) {
         // camera_spot = 0;
         // eye -= camera_speed * glm::vec3(1, 0, 0);
         // target -= camera_speed * glm::vec3(1, 0, 0);
+        move_west();
     }
-    if (key_d) {
+    if (key_d && t60.processMove()) {
         // camera_spot = 0;
         // eye += camera_speed * glm::vec3(1, 0, 0);
         // target += camera_speed * glm::vec3(1, 0, 0);
+        move_east();
     }
 
     // if (key_e) {
