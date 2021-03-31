@@ -14,12 +14,30 @@
 #include <vector>       // std::vector
 #include <random>       // std::default_random_engine
 #include <chrono>       // std::chrono::system_clock
+#include <map>
 
 using namespace std;
 
 GLMatrices Matrices;
 GLuint     programID;
 GLFWwindow *window;
+
+const int N = 1;
+const int S = 2;
+const int E = 4;
+const int W = 8;
+// int dx[] = {1, -1, 0, 0};
+// int dy[] = {0, 0, -1, 1};
+        //  E, W,  N, S
+
+map<int, int> dx;
+map<int, int> dy;
+map<int, int> opposite;
+// dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
+// dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
+
+unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+std::default_random_engine e(seed);
 
 /**************************
 * Customizable functions *
@@ -285,7 +303,11 @@ void initGL(GLFWwindow *window, int width, int height) {
 
 int main(int argc, char **argv) {
     srand(time(0));
-    
+    dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
+    dy[E]=0;dy[W]=0;dy[N]=-1;dy[S]=1;
+    opposite[E]=W;opposite[W]=E;
+    opposite[N]=S;opposite[S]=N;
+
     if (argc >= 2) {
         // cerr << "Hello: " << argv[1] << "\n\n\n";
         select_model = stoi(argv[1]);
@@ -352,14 +374,11 @@ void reset_screen() {
 }
 
 
-void make_maze() {
-    vector<char> dir;
-    dir.push_back('N');
-    dir.push_back('S');
-    dir.push_back('E');
-    dir.push_back('W');
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine e(seed);
-    shuffle(dir.begin(), dir.end(), e);
-    
+void make_maze(int height, int width) {
+    vector<int> dir;
+    dir.push_back(N);
+    dir.push_back(S);
+    dir.push_back(E);
+    dir.push_back(W);
+    vector<vector<int>> grid(height, vector<int>(width, 0));
 }
