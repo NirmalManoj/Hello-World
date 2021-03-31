@@ -155,5 +155,4 @@ Enemy::Enemy(float x, float y, color_t color)
         color_buffer_data[base_size*3+i+2] /= 256.0;
     }
     this->object = create3DObject(GL_TRIANGLES, NO_TRI*3, vertex_buffer_data, color_buffer_data, GL_FILL);
-
 }

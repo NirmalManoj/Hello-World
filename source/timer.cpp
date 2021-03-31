@@ -23,3 +23,12 @@ bool Timer::processMove() {
     } else
         return false;
 }
+
+bool Timer::moveEnemy() {
+    double cur = glfwGetTime();
+    if (cur - prev_enemy >= 1) {
+        prev_enemy = cur;
+        return true;
+    } else
+        return false;
+}

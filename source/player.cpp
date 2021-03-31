@@ -184,3 +184,8 @@ void Player::add_sector(std::vector<GLfloat> &trias){
         trias.push_back(0);
     }
 }
+
+void Player::get_pos(int &row, int &col){
+    col = round((this->position.x+0.675f)/0.15f);
+    row = round((-this->position.y+0.675f)/0.15f);
+}

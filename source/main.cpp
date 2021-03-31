@@ -48,8 +48,8 @@ std::default_random_engine e(seed);
 /**************************
 * Customizable functions *
 **************************/
-
-Ball ball1; // Player
+Ball ball1;
+Player player1; // Player
 // Maze
 Maze maze1;
 // Ball maze1;
@@ -146,7 +146,7 @@ void draw() {
     // cout << "HI1\n";
     
     maze1.draw(VP);
-    ball1.draw(VP);
+    player1.draw(VP);
     enemy1.draw(VP);
     // maze1.draw();
     // cout << "HI2\n";
@@ -154,52 +154,54 @@ void draw() {
 
 
 void move_north(){
-    glm::vec3 tmp = ball1.get_position();
+    glm::vec3 tmp = player1.get_position();
     int row = ((tmp.x+0.675f)/0.15f);
     int col = ((-tmp.y+0.675f)/0.15f);
     swap(row, col);
     cout << "North from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
     float unit = 0.15f;
     if((maze_layout[row][col]&N)==N){
-        ball1.set_position(tmp.x, tmp.y + unit);
+        player1.set_position(tmp.x, tmp.y + unit);
     }
 }
 
 void move_south(){
-    glm::vec3 tmp = ball1.get_position();
+    glm::vec3 tmp = player1.get_position();
     int row = ((tmp.x+0.675f)/0.15f);
     int col = ((-tmp.y+0.675f)/0.15f);
     swap(row, col);
     cout << "South from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
     float unit = 0.15f;
     if((maze_layout[row][col]&S)==S){
-        ball1.set_position(tmp.x, tmp.y - unit);
+        player1.set_position(tmp.x, tmp.y - unit);
     }
 }
 
 void move_east(){
-    glm::vec3 tmp = ball1.get_position();
+    glm::vec3 tmp = player1.get_position();
     int row = ((tmp.x+0.675f)/0.15f);
     int col = ((-tmp.y+0.675f)/0.15f);
     swap(row, col);
     cout << "East from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
     float unit = 0.15f;
     if((maze_layout[row][col]&E)==E){
-        ball1.set_position(tmp.x + unit, tmp.y);
+        player1.set_position(tmp.x + unit, tmp.y);
     }
 }
 
 void move_west(){
-    glm::vec3 tmp = ball1.get_position();
+    glm::vec3 tmp = player1.get_position();
     int row = ((tmp.x+0.675f)/0.15f);
     int col = ((-tmp.y+0.675f)/0.15f);
     swap(row, col);
     cout << "West from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
     float unit = 0.15f;
     if((maze_layout[row][col]&W)==W){
-        ball1.set_position(tmp.x - unit, tmp.y);
+        player1.set_position(tmp.x - unit, tmp.y);
     }
 }
+
+
 
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
@@ -320,10 +322,96 @@ void tick_input(GLFWwindow *window) {
     // }
 }
 
+// bool edge_exists(int node1, int node2){
+//     int row1 = node1 / 10;
+//     int col1 = node1 % 10;
+//     int row2 = node2 / 10;
+//     int col2 = node2 % 10;
+// }
+
+void move_enemy() {
+    int row1, col1; // player
+    int row2, col2; // enemy
+    player1.get_pos(row1, col1);
+    enemy1.get_pos(row2, col2);
+    std::cout << row1 << " " << col1 << "   " << row2 << " " << col2 << "\n";
+    // assert(1==2);
+    const int total_no_of_vertices = 200;
+    int dist[total_no_of_vertices][total_no_of_vertices];
+    int next[total_no_of_vertices][total_no_of_vertices];
+    for(int i = 0; i < total_no_of_vertices; i++){
+        for(int j = 0; j < total_no_of_vertices; j++){
+            dist[i][j] = 121312321;
+            next[i][j] = -1;
+        }
+        next[i][i] = 0;
+        dist[i][i] = 0;
+    }
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            int node1 = i*10 + j;
+            int node2;
+            if((maze_layout[i][j]&N)==N){
+                node2 = node1 - 10;
+                dist[node1][node2] = 1;
+                next[node1][node2] = N;
+            }
+            if((maze_layout[i][j]&S)==S){
+                node2 = node1 + 10;
+                dist[node1][node2] = 1;
+                next[node1][node2] = S;
+            }
+            if((maze_layout[i][j]&E)==E){
+                node2 = node1 + 1;
+                dist[node1][node2] = 1;
+                next[node1][node2] = E;
+            }
+            if((maze_layout[i][j]&W)==W){
+                node2 = node1 - 1;
+                dist[node1][node2] = 1;
+                next[node1][node2] = W;
+            }
+        }
+    }
+    for(int k = 0; k < 100; k++){
+        for(int i = 0; i < 100; i++){
+            for(int j = 0; j < 100; j++){
+                if (dist[i][j] > dist[i][k]+dist[k][j]){
+                    dist[i][j] = dist[i][k]+dist[k][j];
+                    next[i][j] = next[i][k];
+                }
+            }
+        }
+    }
+    int nxt = next[row2*10+col2][row1*10+col1];
+    float unit = 0.15f;
+    glm::vec3 tmp = enemy1.get_position();
+    if (nxt == N){
+        std::cout << "Moving north\n";
+        enemy1.set_position(tmp.x, tmp.y + unit);
+    }
+    if (nxt == S){
+        std::cout << "Moving south\n";
+        enemy1.set_position(tmp.x, tmp.y - unit);
+    }
+    if (nxt == E){
+        std::cout << "Moving east\n";
+        enemy1.set_position(tmp.x + unit, tmp.y);
+    }
+    if (nxt == W){
+        std::cout << "Moving west\n";
+        enemy1.set_position(tmp.x - unit, tmp.y);
+    }
+}
+
 void tick_elements() {
     // ball1.tick();
     // camera_rotation_angle += 1;
     maze1.tick();
+    if(t60.moveEnemy()){
+        // enemy1.move_position();
+        move_enemy();
+    }
 }
 
 
@@ -331,7 +419,7 @@ void chooseModel() {
     if (select_model == 0){
         // ball1 = Ball(0, 0, COLOR_GREEN);
         // ball1 = HexagonalDipyramid(-0.675f, 0.675f, COLOR_GREEN);
-        ball1 = Player(-0.675f, 0.675f, COLOR_GREEN);
+        player1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
         enemy1 = Enemy(0.675f, -0.675f, COLOR_GREEN);
     } else if(select_model == 1) {
