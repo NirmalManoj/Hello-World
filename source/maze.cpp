@@ -1,10 +1,11 @@
 #include "maze.h"
 #include "main.h"
+#include <vector>
 
 #define vt(tmp) tmp.x, tmp.y, tmp.z
 
-Maze::Maze(float x, float y, color_t color) {
-    srand(time(0));
+Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid){
+    srand(time(0)); 
     this->position = glm::vec3(x, y, 0);
     this->initial_position = this->position;
     this->rotation = 0;

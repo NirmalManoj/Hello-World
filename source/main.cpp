@@ -269,7 +269,7 @@ void tick_elements() {
 void chooseModel() {
     if (select_model == 0){
         ball1 = Ball(0, 0, COLOR_GREEN);
-        maze1 = Maze(0, 0, COLOR_GREEN);
+        maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
     } else if(select_model == 1) {
         ball1 = HexagonalDipyramid(0, 0, COLOR_GREEN);
     } else if(select_model == 2) {
