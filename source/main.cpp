@@ -311,8 +311,12 @@ void initGL(GLFWwindow *window, int width, int height) {
 
 int main(int argc, char **argv) {
     srand(time(0));
-    dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
-    dy[E]=0;dy[W]=0;dy[N]=-1;dy[S]=1;
+    // His directions
+    // dx[E]=1;dx[W]=-1;dx[N]=0;dx[S]=0;
+    // dy[E]=0;dy[W]=0;dy[N]=-1;dy[S]=1;
+    // My rewriting
+    dx[E]=0;dx[W]=0;dx[N]=-1;dx[S]=1;
+    dy[E]=1;dy[W]=-1;dy[N]=0;dy[S]=0;
     opposite[E]=W;opposite[W]=E;
     opposite[N]=S;opposite[S]=N;
     make_maze(10, 10);
@@ -321,7 +325,7 @@ int main(int argc, char **argv) {
             cout << maze_layout[i][j] << " ";
         }cout << "\n";
     }
-    // return 0;
+    return 0;
     // if (argc >= 2) {
     //     // cerr << "Hello: " << argv[1] << "\n\n\n";
     //     select_model = stoi(argv[1]);
@@ -398,9 +402,9 @@ void carve_passages_from(int cx, int cy, vector<vector<int>> &grid){
     for(auto direction: dir){
         int nx = cx + dx[direction];
         int ny = cy + dy[direction];
-        if (0 <= ny && ny < grid.size() && 0 <= nx && nx < grid[ny].size() && grid[ny][nx]==0){
-            grid[cy][cx] |= direction;
-            grid[ny][nx] |= opposite[direction];
+        if (0 <= nx && nx < grid.size() && 0 <= ny && ny < grid[nx].size() && grid[nx][ny]==0){
+            grid[cx][cy] |= direction;
+            grid[nx][ny] |= opposite[direction];
             carve_passages_from(nx, ny, grid);// Probably buggy
         }
     }
