@@ -6,6 +6,7 @@
 #include "undecagonal_pyramid.h"
 #include "maze.h"
 #include "player.h"
+#include "enemy.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -48,10 +49,11 @@ std::default_random_engine e(seed);
 * Customizable functions *
 **************************/
 
-Ball ball1;
+Ball ball1; // Player
 // Maze
 Maze maze1;
 // Ball maze1;
+Enemy enemy1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -145,7 +147,7 @@ void draw() {
     
     maze1.draw(VP);
     ball1.draw(VP);
-
+    enemy1.draw(VP);
     // maze1.draw();
     // cout << "HI2\n";
 }
@@ -331,6 +333,7 @@ void chooseModel() {
         // ball1 = HexagonalDipyramid(-0.675f, 0.675f, COLOR_GREEN);
         ball1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
+        enemy1 = Enemy(0.675f, -0.675f, COLOR_GREEN);
     } else if(select_model == 1) {
         ball1 = HexagonalDipyramid(0, 0, COLOR_GREEN);
     } else if(select_model == 2) {
