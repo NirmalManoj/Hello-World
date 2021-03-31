@@ -5,6 +5,15 @@
 #include "decagonal_prism.h"
 #include "undecagonal_pyramid.h"
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
+// shuffle algorithm example
+#include <iostream>     // std::cout
+#include <algorithm>    // std::shuffle
+#include <vector>       // std::vector
+#include <random>       // std::default_random_engine
+#include <chrono>       // std::chrono::system_clock
 
 using namespace std;
 
@@ -340,4 +349,17 @@ void reset_screen() {
     float left   = screen_center_x - 4 / screen_zoom;
     float right  = screen_center_x + 4 / screen_zoom;
     Matrices.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
+}
+
+
+void make_maze() {
+    vector<char> dir;
+    dir.push_back('N');
+    dir.push_back('S');
+    dir.push_back('E');
+    dir.push_back('W');
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine e(seed);
+    shuffle(dir.begin(), dir.end(), e);
+    
 }
