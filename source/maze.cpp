@@ -10,25 +10,35 @@ Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid)
     this->initial_position = this->position;
     this->rotation = 0;
     this->spin_axis = 0;
+    this->height = grid.size();
+    this->width = grid[0].size();//grid is never supposed to be empty
+
+    this->top_left_x = -0.75;
+    this->top_left_y = 0.75;
+    this->unit_cell = 1.5/((float)height);
+
+
     speed = 1;
     // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     
-    glm::vec3 v1(-1, 1, 0);
-    glm::vec3 v2(1, 1, 0);
-    glm::vec3 v3(-1.0f, -1.0f, 0);
-    glm::vec3 v4(1, -1.0f, 0);
+    std::vector<GLfloat> lines;
+    generate_maze(grid, lines);
+    // glm::vec3 v1(-1, 1, 0);
+    // glm::vec3 v2(1, 1, 0);
+    // glm::vec3 v3(-1.0f, -1.0f, 0);
+    // glm::vec3 v4(1, -1.0f, 0);
     
-    static const GLfloat vertex_buffer_data[] = {
-        vt(v1), // Line 1 : begin
-        vt(v2),
-        vt(v1),
-        vt(v3),
-        vt(v2),
-        vt(v4),
-        vt(v3),
-        vt(v4)
-    };
+    // static const GLfloat vertex_buffer_data[] = {
+    //     vt(v1), // Line 1 : begin
+    //     vt(v2),
+    //     vt(v1),
+    //     vt(v3),
+    //     vt(v2),
+    //     vt(v4),
+    //     vt(v3),
+    //     vt(v4)
+    // };
 
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
     const int NO_VETIC = 4;
@@ -38,6 +48,77 @@ Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid)
         color_buffer_data[i] = 123.9;
     }
     this->object = create3DObject(GL_LINES, NO_VETIC*3, vertex_buffer_data, color_buffer_data, GL_FILL);
+}
+
+void Maze::add_north_line(std::vector<GLfloat> &lines, int row, int col){
+    float x = this->top_left_x + unit_cell * row;
+    float y = this->top_left_y + unit_cell * col;
+    glm::vec3 v1(x, y, 0);
+    glm::vec3 v2(x+unit_cell, y, 0);
+    lines.push_back(v1.x);
+    lines.push_back(v1.y);
+    lines.push_back(v1.z);
+    lines.push_back(v2.x);
+    lines.push_back(v2.y);
+    lines.push_back(v2.z);
+}
+
+void Maze::add_south_line(std::vector<GLfloat> &lines, int row, int col){
+    float x = this->top_left_x + unit_cell * row;
+    float y = this->top_left_y + unit_cell * col;
+    glm::vec3 v1(x+unit_cell, y, 0);
+    glm::vec3 v2(x+unit_cell, y+unit_cell, 0);
+    lines.push_back(v1.x);
+    lines.push_back(v1.y);
+    lines.push_back(v1.z);
+    lines.push_back(v2.x);
+    lines.push_back(v2.y);
+    lines.push_back(v2.z);
+}
+
+void Maze::add_east_line(std::vector<GLfloat> &lines, int row, int col){
+    float x = this->top_left_x + unit_cell * row;
+    float y = this->top_left_y + unit_cell * col;
+    glm::vec3 v1(x, y+unit_cell, 0);
+    glm::vec3 v2(x+unit_cell, y+unit_cell, 0);
+    lines.push_back(v1.x);
+    lines.push_back(v1.y);
+    lines.push_back(v1.z);
+    lines.push_back(v2.x);
+    lines.push_back(v2.y);
+    lines.push_back(v2.z);
+}
+
+void Maze::add_west_line(std::vector<GLfloat> &lines, int row, int col){
+    float x = this->top_left_x + unit_cell * row;
+    float y = this->top_left_y + unit_cell * col;
+    glm::vec3 v1(x, y, 0);
+    glm::vec3 v2(x+unit_cell, y, 0);
+    lines.push_back(v1.x);
+    lines.push_back(v1.y);
+    lines.push_back(v1.z);
+    lines.push_back(v2.x);
+    lines.push_back(v2.y);
+    lines.push_back(v2.z);
+}
+
+void Maze::generate_maze(std::vector<std::vector<int>> &grid, std::vector<GLfloat> &lines){
+    for(int i = 0; i < this->height; i++){
+        for(int j = 0; j < grid[i].size(); i++){
+            if ((grid[i][j] & 1) == 0){ // North
+                add_north_line(lines, i, j);
+            }
+            if ((grid[i][j] & 2) == 0){ // South
+                add_south_line(lines, i, j);
+            }
+            if ((grid[i][j] & 4) == 0){ // East
+                add_east_line(lines, i, j);
+            }
+            if ((grid[i][j] & 8) == 0){ // West   
+                add_west_line(lines, i, j);
+            }
+        }
+    }
 }
 
 void Maze::draw(glm::mat4 VP) {
