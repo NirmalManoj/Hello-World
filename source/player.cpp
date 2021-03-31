@@ -75,7 +75,7 @@ Player::Player(float x, float y, color_t color)
     glm::vec3 v16(-0.025, unit-0.01, 0);
     
     
-    static const GLfloat vertex_buffer_data[] = {
+    static const GLfloat vertex_buffer_data_tmp[] = {
         tri(v1, v2, v3),
         tri(v1, v3, v4),
         tri(v5, v8, v7),
@@ -88,49 +88,99 @@ Player::Player(float x, float y, color_t color)
         tri(v13, v15, v16)
     };
 
+    static GLfloat vertex_buffer_data[1200*3];
+    std::vector<GLfloat> trias;
+    this->add_sector(trias);
+
+
+    int base_size = trias.size();
+    std::cout << "BASE SIZE: " << base_size << " " << base_size/3 << "\n";
+    for(int i = 0; i < base_size; i++){
+        vertex_buffer_data[i] = trias[i];
+    }
+    for(int i = 0; i < 10*3*3; i++){
+        vertex_buffer_data[base_size+i] = vertex_buffer_data_tmp[i];
+    }
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
-    const int NO_TRI = 10;
-    static GLfloat color_buffer_data[NO_TRI*3*3];
+    const int NO_TRI = 10+base_size/3;
+    std::cout << "NOT TIR: " << NO_TRI << "\n";
+    static GLfloat color_buffer_data[1200*3*3];
+    base_size/=3;
+    for(int i = 0; i < base_size*3; i+=3){
+        color_buffer_data[i] = 224.9;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 29.9;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 156.9;
+        color_buffer_data[i+2] /= 256.0;
+    }
     for(int i = 0; i < 4*3*3; i+=3)
     {
         // Grey white
-        color_buffer_data[i] = 212.9;
-        color_buffer_data[i] /= 256.0;
-        color_buffer_data[i+1] = 193.9;
-        color_buffer_data[i+1] /= 256.0;
-        color_buffer_data[i+2] = 108.9;
-        color_buffer_data[i+2] /= 256.0;
+        color_buffer_data[base_size*3+i] = 212.9;
+        color_buffer_data[base_size*3+i] /= 256.0;
+        color_buffer_data[base_size*3+i+1] = 193.9;
+        color_buffer_data[base_size*3+i+1] /= 256.0;
+        color_buffer_data[base_size*3+i+2] = 108.9;
+        color_buffer_data[base_size*3+i+2] /= 256.0;
     }
     for(int i = 4*3*3; i < 6*3*3; i+=3)
     {
         // Green
-        color_buffer_data[i] = 19.0;
-        color_buffer_data[i] /= 256.0;
-        color_buffer_data[i+1] = 214.0;
-        color_buffer_data[i+1] /= 256.0;
-        color_buffer_data[i+2] = 52.0;
-        color_buffer_data[i+2] /= 256.0;
+        color_buffer_data[base_size*3+i] = 19.0;
+        color_buffer_data[base_size*3+i] /= 256.0;
+        color_buffer_data[base_size*3+i+1] = 214.0;
+        color_buffer_data[base_size*3+i+1] /= 256.0;
+        color_buffer_data[base_size*3+i+2] = 52.0;
+        color_buffer_data[base_size*3+i+2] /= 256.0;
     }
     for(int i = 6*3*3; i < 8*3*3; i+=3)
     {
         // Blue
-        color_buffer_data[i] = 35.0;
-        color_buffer_data[i] /= 256.0;
-        color_buffer_data[i+1] = 180.0;
-        color_buffer_data[i+1] /= 256.0;
-        color_buffer_data[i+2] = 252.0;
-        color_buffer_data[i+2] /= 256.0;
+        color_buffer_data[base_size*3+i] = 35.0;
+        color_buffer_data[base_size*3+i] /= 256.0;
+        color_buffer_data[base_size*3+i+1] = 180.0;
+        color_buffer_data[base_size*3+i+1] /= 256.0;
+        color_buffer_data[base_size*3+i+2] = 252.0;
+        color_buffer_data[base_size*3+i+2] /= 256.0;
     }
     for(int i = 8*3*3; i < 10*3*3; i+=3)
     {
         // Green
-        color_buffer_data[i] = 0.0;
-        color_buffer_data[i] /= 256.0;
-        color_buffer_data[i+1] = 158.0;
-        color_buffer_data[i+1] /= 256.0;
-        color_buffer_data[i+2] = 201.0;
-        color_buffer_data[i+2] /= 256.0;
+        color_buffer_data[base_size*3+i] = 0.0;
+        color_buffer_data[base_size*3+i] /= 256.0;
+        color_buffer_data[base_size*3+i+1] = 158.0;
+        color_buffer_data[base_size*3+i+1] /= 256.0;
+        color_buffer_data[base_size*3+i+2] = 201.0;
+        color_buffer_data[base_size*3+i+2] /= 256.0;
     }
     this->object = create3DObject(GL_TRIANGLES, NO_TRI*3, vertex_buffer_data, color_buffer_data, GL_FILL);
 
+}
+
+void Player::add_sector(std::vector<GLfloat> &trias){
+    float x = -0.05;
+    float y = 0.04;
+    float radius = sqrt(x*x + y*y);
+    std::cout << "RADIUS: " << radius << "\n";
+    std::vector<GLfloat> vertx;
+    for(x = -0.05f; x < 0.05f; x += 0.01f) {
+        y = sqrt(radius*radius - x*x);
+        vertx.push_back(x);
+        vertx.push_back(y);
+    }
+    for(int i = 3; i < vertx.size(); i+=2){
+        // Origin
+        trias.push_back(0);
+        trias.push_back(0);
+        trias.push_back(0);
+        // Previous point
+        trias.push_back(vertx[i-3]);
+        trias.push_back(vertx[i-2]);
+        trias.push_back(0);
+        // Current point
+        trias.push_back(vertx[i-1]);
+        trias.push_back(vertx[i]);
+        trias.push_back(0);
+    }
 }
