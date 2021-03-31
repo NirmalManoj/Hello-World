@@ -81,7 +81,7 @@ void draw() {
 
     // Eye - Location of camera. Don't change unless you are sure!!
     // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    glm::vec3 eye (0, 0, 1);
+    glm::vec3 eye (0, 0, 2);
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -138,9 +138,10 @@ void draw() {
 
     // Scene render
     // maze1.draw();
-    cout << "HI1\n";
+    // cout << "HI1\n";
     maze1.draw(VP);
-    cout << "HI2\n";
+    // maze1.draw();
+    // cout << "HI2\n";
 }
 
 void tick_input(GLFWwindow *window) {
@@ -320,12 +321,12 @@ int main(int argc, char **argv) {
     opposite[E]=W;opposite[W]=E;
     opposite[N]=S;opposite[S]=N;
     make_maze(10, 10);
-        for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            cout << maze_layout[i][j] << " ";
-        }cout << "\n";
-    }
-    return 0;
+    //     for(int i = 0; i < 10; i++){
+    //     for(int j = 0; j < 10; j++){
+    //         cout << maze_layout[i][j] << " ";
+    //     }cout << "\n";
+    // }
+    // return 0;
     // if (argc >= 2) {
     //     // cerr << "Hello: " << argv[1] << "\n\n\n";
     //     select_model = stoi(argv[1]);
