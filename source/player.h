@@ -15,9 +15,20 @@ public:
     bool is_game_over();
     bool is_won();
 
+    void add_health(int x);
+    void dec_health(int x);
+    void add_task();
+    void dec_time();
+    int get_health();
+    int get_task_done();
+    int get_time();
+
 private:
     bool game_over;
     bool won;
+    int health;
+    int task_done;
+    int time_left;
 };
 
 #endif // PLAYER_H

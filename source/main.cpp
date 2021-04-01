@@ -495,6 +495,9 @@ void tick_elements()
         // enemy1.move_position();
         move_enemy();
     }
+    if(t60.processSecond()){
+        player1.dec_time();
+    }
     check_vaporizer_collision();
     check_enemy_collision();
 }   
@@ -718,7 +721,7 @@ int main(int argc, char **argv)
                 glfwSwapBuffers(window);
             } else {
                 sprintf(game_title, "AMONG US");
-                sprintf(HUD, "Health: %d, Tasks left: %d, Time left: %ds, Light: On", 10, 2, 100);
+                sprintf(HUD, "Health: %d, Tasks left: %d/2, Time left: %ds, Light: On", player1.get_health(), player1.get_task_done(), player1.get_time());
                 draw();
 
                 glEnable(GL_CULL_FACE);

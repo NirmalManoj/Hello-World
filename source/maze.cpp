@@ -55,9 +55,14 @@ Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid)
     }
 
     static GLfloat color_buffer_data[1000*3];
-    for(int i = 0; i < NO_VETIC*3; i+=1)
+    for(int i = 0; i < NO_VETIC*3; i+=3)
     {
-        color_buffer_data[i] = 123.9;
+        color_buffer_data[i] = 156.0;
+        color_buffer_data[i] /= 256.0;
+        color_buffer_data[i+1] = 149.0;
+        color_buffer_data[i+1] /= 256.0;
+        color_buffer_data[i+2] = 62.0;
+        color_buffer_data[i+2] /= 256.0;
     }
     this->object = create3DObject(GL_LINES, NO_VETIC*3, vertex_buffer_data, color_buffer_data, GL_FILL);
 }

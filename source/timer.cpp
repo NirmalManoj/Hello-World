@@ -26,9 +26,19 @@ bool Timer::processMove() {
 
 bool Timer::moveEnemy() {
     double cur = glfwGetTime();
-    if (cur - prev_enemy >= 1) {
+    if (cur - prev_enemy >= 1.0) {
         prev_enemy = cur;
         return true;
     } else
         return false;
 }
+
+bool Timer::processSecond() {
+    double cur = glfwGetTime();
+    if (cur - prev_second >= 1.0) {
+        prev_second = cur;
+        return true;
+    } else
+        return false;
+}
+

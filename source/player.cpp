@@ -13,6 +13,10 @@ Player::Player(float x, float y, color_t color)
     this->game_over = false;
     speed = 1;
 
+    this->health = 10;
+    this->task_done = 0;
+    this->time_left = 100;
+
     // Vectors in decagon
     // float heit = -0.8;
     // glm::vec3 v1(cos(get_ang(0)), 0, sin(get_ang(0)));
@@ -202,4 +206,38 @@ bool Player::is_game_over(){
 
 bool Player::is_won(){
     return this->won;
+}
+
+void Player::add_health(int x){
+    this->health = this->health + x;
+}
+
+void Player::dec_health(int x){
+    this->health = this->health - x;
+    if (this->health < 0){
+        this->set_game_over();
+    }
+}
+
+void Player::add_task(){
+    this->task_done = this->task_done + 1;
+}
+
+void Player::dec_time(){
+    this->time_left = this->time_left - 1;
+    if (this->time_left <= 0){
+        this->set_game_over();
+    }
+}
+
+int Player::get_health(){
+    return this->health;
+}
+
+int Player::get_task_done(){
+    return this->task_done;
+}
+
+int Player::get_time(){
+    return this->time_left;
 }
