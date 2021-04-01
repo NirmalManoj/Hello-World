@@ -11,6 +11,7 @@
 #include "task.h"
 #include "button.h"
 #include "bomb.h"
+#include "coin.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -79,6 +80,7 @@ Vaporizer vaporizer1;
 Task task1[2];
 Button button1;
 std::vector<Bomb> bomb1;
+std::vector<Coin> coin1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -193,6 +195,12 @@ void draw()
             continue;
         }
         bomb1[i].draw(VP);
+    }
+    for(int i = 0; i < coin1.size(); i++){
+        if(coin1[i].is_live()==false){
+            continue;
+        }
+        coin1[i].draw(VP);
     }
     // maze1.draw();
     // cout << "HI2\n";
@@ -546,6 +554,11 @@ void check_button_collision(){
             col_no = rand() % 10;
             bomb1.push_back(Bomb(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN));
         }
+        for(int i = 0; i < 7; i++){
+            row_no = rand() % 10;   
+            col_no = rand() % 10;
+            coin1.push_back(Coin(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN));
+        }
     }
 }
 
@@ -557,10 +570,27 @@ void check_bomb_collision(){
         int row1, col1, row2, col2, row_no, col_no;
         player1.get_pos(row1, col1);
         bomb1[i].get_pos(row2, col2);
-        std::cout << row2 << " " << col2 << " That's it.\n";
+        // std::cout << row2 << " " << col2 << " That's it.\n";
         if(row1 == row2 && col1 == col2 && bomb1[i].is_live()){
             bomb1[i].set_dead();
             player1.dec_health(5);
+        }
+    }
+}
+
+
+void check_coin_collision(){
+    for(int i = 0; i < coin1.size(); i++){
+        if(coin1[i].is_live() == false){
+            continue;
+        }
+        int row1, col1, row2, col2, row_no, col_no;
+        player1.get_pos(row1, col1);
+        coin1[i].get_pos(row2, col2);
+        // std::cout << row2 << " " << col2 << " That's it.\n";
+        if(row1 == row2 && col1 == col2 && coin1[i].is_live()){
+            coin1[i].set_dead();
+            player1.add_health(5);
         }
     }
 }
@@ -582,6 +612,7 @@ void tick_elements()
     check_enemy_collision();
     check_button_collision();
     check_bomb_collision();
+    check_coin_collision();
 }   
 
 void chooseModel()
