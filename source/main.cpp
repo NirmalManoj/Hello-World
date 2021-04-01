@@ -625,10 +625,15 @@ void chooseModel()
         // ball1 = HexagonalDipyramid(-0.675f, 0.675f, COLOR_GREEN);
         player1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
-        enemy1 = Enemy(0.675f, -0.675f, COLOR_GREEN);
+        // enemy1 = Enemy(0.675f, -0.675f, COLOR_GREEN);
         // int cell_no = rand() % 100;
-        int row_no = rand() % 10;
+        int row_no = rand() % 5;
         int col_no = rand() % 5;
+        row_no += 5;
+        col_no += 5;
+        enemy1 = Enemy(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
+        row_no = rand() % 10;   
+        col_no = rand() % 10;
         vaporizer1 = Vaporizer(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
         std::cout << "ROW: " << row_no << "  COL: " << col_no << "\n";
         for(int i = 0; i < 2; i++){

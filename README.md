@@ -1,42 +1,22 @@
-# Assignment 0
-### Roll No: 2019111011, Nirmal Manoj C
+# Assignment 1 - Computer Graphics
+### Nirmal Manoj C
+### Roll No.: 2019111011
+
+## How to run?
+All the required libraries (freetype, glad, glm, glfw) are already present in the `libraries` folder. Any other dependency of these libraries should be satisifed for the game to run.
+After extracting the compressed document, the following commands can be used to compile and run the game.
+1.`mkdir build && cd build`
+2. `cmake ..`
+3. `make`
+4. `./Hello-World`
 
 ## Instructions
+The player starts at the top left corner and an enemy(imposter) exists at a random location in the maze. You can move around the maze using keys `W`, `A`, `S`, `D` for directions North, West, South, and East respectively.
 
-Compile the code using the following commands
-```mkdir build && cd build```
+A shape similar to yellow coin is a button to spawn coins and bombs. Hourglass like shape are tasks. In order to do a task, you have to reach the position of the task and press the key `T`. Doing tasks gives an award of 10 points each, while collecting a coin gives 5 points. Vaporizing the imposter will also fetch 5 points for the player. Hitting a bomb will result at a loss of 5 points. If the health points ever go below zero, game is over. When timer hits zero also, the game is over. The exit location at the bottom right corner will be accessible only if a player complete two tasks. 
 
-```cmake ..```
-
-```make```
-
-I have implemented three different solids as required for the assignment.
-
-In the build folder, the program can be run using `./Hello-World`.
-
-To select models 1, 2, and 3. A command line argument (1, 2, or 3) can be passed along while calling the program. If no argument is specified, the program will ask to choose the corresponding model in CLI and it can be selected.
-
-
-### Controls
-
-1. To move camera the following keys can be used.
-    W - Move along negative z axis
-    S - Move along positive z axis
-    A - Move along negative x axis
-    D - Move along positive x axis
-    E - Move along positive y axis
-    R - Move along negative y axis
-
-2. To move the object, the following  keys can be used.
-    I - Move along negative z axis
-    K - Move along positive z axis
-    J - Move along negative x axis
-    L - Move along positive x axis
-    O - Move along positive y axis
-    P - Move along negative y axis
-
-3. There are three different pre-decided orientations as required by the assignment. They can be selected using keys F7, F8, and F9.
-
-4. In order to make object spin along any one axis, use `Left Shift` and to stop spinning use `Left Ctrl`.
-
-5. To revolve the camera around the object, use `Right Shift` and to stop it revolving us `Right Ctrl`.
+### Cheats
+For easily exploring the game, I have made following cheat codes.
+`K` - Kills the imposter.
+`O` - Game over with `You lost` message.
+`P`  - Game over with `You won` message.
