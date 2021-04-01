@@ -7,6 +7,7 @@
 #include "maze.h"
 #include "player.h"
 #include "enemy.h"
+#include "vaporizer.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -71,6 +72,7 @@ Player player1; // Player
 Maze maze1;
 // Ball maze1;
 Enemy enemy1;
+Vaporizer vaporizer1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -170,6 +172,7 @@ void draw()
     player1.draw(VP);
     if (enemy1.is_live()){
         enemy1.draw(VP);
+        vaporizer1.draw(VP);
     }
     // maze1.draw();
     // cout << "HI2\n";
@@ -479,6 +482,10 @@ void chooseModel()
         player1 = Player(-0.675f, 0.675f, COLOR_GREEN);
         maze1 = Maze(0, 0, COLOR_GREEN, maze_layout);
         enemy1 = Enemy(0.675f, -0.675f, COLOR_GREEN);
+        // int cell_no = rand() % 100;
+        int row_no = rand() % 10;
+        int col_no = rand() % 5;
+        vaporizer1 = Vaporizer(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
     }
     else if (select_model == 1)
     {
@@ -781,7 +788,7 @@ void RenderText(Shader &shader, std::string text, float x, float y, float scale,
     glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(text_VAO);
-    std::cout << "TO PRINT: " << text << "\n";
+    // std::cout << "TO PRINT: " << text << "\n";
     // iterate through all characters
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
