@@ -49,12 +49,12 @@ Maze::Maze(float x, float y, color_t color, std::vector<std::vector<int>> &grid)
 
     // this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
     const int NO_VETIC = lines.size()/3;
-    static GLfloat vertex_buffer_data[1000*3]; 
+    static GLfloat vertex_buffer_data[2000*3]; 
     for(int i = 0; i < lines.size(); i++){
         vertex_buffer_data[i] = lines[i];
     }
 
-    static GLfloat color_buffer_data[1000*3];
+    static GLfloat color_buffer_data[2000*3];
     for(int i = 0; i < NO_VETIC*3; i+=3)
     {
         color_buffer_data[i] = 156.0;
