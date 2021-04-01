@@ -8,6 +8,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "vaporizer.h"
+#include "task.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -73,6 +74,7 @@ Maze maze1;
 // Ball maze1;
 Enemy enemy1;
 Vaporizer vaporizer1;
+Task task1[2];
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -174,6 +176,11 @@ void draw()
         enemy1.draw(VP);
         vaporizer1.draw(VP);
     }
+    for(int i = 0; i < 2; i++){
+        if(task1[i].is_live()){
+            task1[i].draw(VP);
+        }
+    }
     // maze1.draw();
     // cout << "HI2\n";
 }
@@ -266,6 +273,24 @@ void tick_input(GLFWwindow *window)
     int key_l = glfwGetKey(window, GLFW_KEY_L);
     int key_o = glfwGetKey(window, GLFW_KEY_O);
     int key_p = glfwGetKey(window, GLFW_KEY_P);
+
+    int key_t = glfwGetKey(window, GLFW_KEY_T);
+
+
+    if (key_t){
+        int row1, col1, row2, col2;
+        player1.get_pos(row2, col2);
+        for(int i = 0; i < 2; i++){
+            if(task1[i].is_live() == false){
+                continue;
+            }
+            task1[i].get_pos(row1, col1);
+            if(row1 == row2 && col1 == col2){
+                task1[i].set_dead();
+                player1.add_task();
+            }
+        }
+    }
 
     const float camera_speed = 0.05f;
     if (key_w && t60.processMove())
@@ -510,6 +535,8 @@ void tick_elements()
 
 void chooseModel()
 {
+    // srand(time(0));
+    
     if (select_model == 0)
     {
         // ball1 = Ball(0, 0, COLOR_GREEN);
@@ -521,6 +548,14 @@ void chooseModel()
         int row_no = rand() % 10;
         int col_no = rand() % 5;
         vaporizer1 = Vaporizer(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
+        std::cout << "ROW: " << row_no << "  COL: " << col_no << "\n";
+        for(int i = 0; i < 2; i++){
+            row_no = rand() % 10;   
+            col_no = rand() % 10;
+            task1[i] = Task(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
+            std::cout << "ROW: " << row_no << "  COL: " << col_no << "\n";
+        }
+        // assert(1==2);
     }
     else if (select_model == 1)
     {

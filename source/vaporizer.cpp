@@ -5,7 +5,7 @@
 
 Vaporizer::Vaporizer(float x, float y, color_t color)
 {
-    srand(time(0));
+    // srand(time(0));
     this->position = glm::vec3(x, y, 0);
     this->initial_position = this->position;
     this->rotation = 0;
