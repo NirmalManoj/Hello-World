@@ -10,6 +10,7 @@
 #include "vaporizer.h"
 #include "task.h"
 #include "button.h"
+#include "bomb.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -77,7 +78,7 @@ Enemy enemy1;
 Vaporizer vaporizer1;
 Task task1[2];
 Button button1;
-
+std::vector<Bomb> bomb1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -187,6 +188,12 @@ void draw()
     if (button1.is_live()){
         button1.draw(VP);
     }
+    for(int i = 0; i < bomb1.size(); i++){
+        if(bomb1[i].is_live()==false){
+            continue;
+        }
+        bomb1[i].draw(VP);
+    }
     // maze1.draw();
     // cout << "HI2\n";
 }
@@ -294,6 +301,7 @@ void tick_input(GLFWwindow *window)
             if(row1 == row2 && col1 == col2){
                 task1[i].set_dead();
                 player1.add_task();
+                player1.add_health(10);
             }
         }
     }
@@ -506,6 +514,7 @@ void check_vaporizer_collision(){
     vaporizer1.get_pos(row2, col2);
     if(row1 == row2 && col1 == col2){
         vaporizer1.set_dead();
+        player1.add_health(5);
         enemy1.set_dead();
     }
 }
@@ -526,13 +535,33 @@ void check_button_collision(){
     if(button1.is_live() == false){
         return;
     }
-    int row1, col1, row2, col2;
+    int row1, col1, row2, col2, row_no, col_no;
     player1.get_pos(row1, col1);
     button1.get_pos(row2, col2);
     if(row1 == row2 && col1 == col2){
         button1.set_dead();
         // Insert the obstacles and powerups here!
-        
+        for(int i = 0; i < 4; i++){
+            row_no = rand() % 10;   
+            col_no = rand() % 10;
+            bomb1.push_back(Bomb(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN));
+        }
+    }
+}
+
+void check_bomb_collision(){
+    for(int i = 0; i < bomb1.size(); i++){
+        if(bomb1[i].is_live() == false){
+            continue;
+        }
+        int row1, col1, row2, col2, row_no, col_no;
+        player1.get_pos(row1, col1);
+        bomb1[i].get_pos(row2, col2);
+        std::cout << row2 << " " << col2 << " That's it.\n";
+        if(row1 == row2 && col1 == col2 && bomb1[i].is_live()){
+            bomb1[i].set_dead();
+            player1.dec_health(5);
+        }
     }
 }
 
@@ -552,6 +581,7 @@ void tick_elements()
     check_vaporizer_collision();
     check_enemy_collision();
     check_button_collision();
+    check_bomb_collision();
 }   
 
 void chooseModel()

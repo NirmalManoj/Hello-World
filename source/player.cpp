@@ -214,6 +214,7 @@ void Player::add_health(int x){
 
 void Player::dec_health(int x){
     this->health = this->health - x;
+    std::cout << "HI:: " << this->health << "\n";
     if (this->health < 0){
         this->set_game_over();
     }
