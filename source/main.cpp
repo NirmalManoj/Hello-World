@@ -535,7 +535,7 @@ void check_enemy_collision() {
     player1.get_pos(row1, col1);
     enemy1.get_pos(row2, col2);
     if(row1 == row2 && col1 == col2){
-        // player1.set_game_over(false);// Enemy - collision temp disabled
+        player1.set_game_over(false);// Enemy - collision temp disabled
     }
 }
 
