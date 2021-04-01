@@ -460,6 +460,19 @@ void move_enemy()
     }
 }
 
+void check_vaporizer_collision(){
+    if(vaporizer1.is_live() == false){
+        return;
+    }
+    int row1, col1, row2, col2;
+    player1.get_pos(row1, col1);
+    vaporizer1.get_pos(row2, col2);
+    if(row1 == row2 && col1 == col2){
+        vaporizer1.set_dead();
+        enemy1.set_dead();
+    }
+}
+
 void tick_elements()
 {
     // ball1.tick();
@@ -470,6 +483,7 @@ void tick_elements()
         // enemy1.move_position();
         move_enemy();
     }
+    check_vaporizer_collision();
 
 }   
 
