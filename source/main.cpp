@@ -214,6 +214,12 @@ void move_east()
     swap(row, col);
     cout << "East from: " << row << " " << col << " |||| " << maze_layout[row][col] << "\n";
     float unit = 0.15f;
+    if (row == 9 && col == 9){
+        if(player1.get_task_done() == 2){
+            player1.set_game_over(true);
+        }
+        return;
+    }
     if ((maze_layout[row][col] & E) == E)
     {
         player1.set_position(tmp.x + unit, tmp.y);
@@ -481,7 +487,7 @@ void check_enemy_collision() {
     player1.get_pos(row1, col1);
     enemy1.get_pos(row2, col2);
     if(row1 == row2 && col1 == col2){
-        player1.set_game_over(false);// Enemy - collision temp disabled
+        // player1.set_game_over(false);// Enemy - collision temp disabled
     }
 }
 
@@ -579,6 +585,7 @@ int main(int argc, char **argv)
     opposite[N] = S;
     opposite[S] = N;
     make_maze(10, 10);
+    maze_layout[9][9] |= E;
     //     for(int i = 0; i < 10; i++){
     //     for(int j = 0; j < 10; j++){
     //         cout << maze_layout[i][j] << " ";
