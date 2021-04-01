@@ -841,7 +841,7 @@ int main(int argc, char **argv)
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 RenderText(shader, "Game over!", 740.0f, 600.0f, 1.65f, glm::vec3(0.91f, 0.82f, 0.0756f));
                 if(player1.is_won()) {
-                    RenderText(shader, "Cheers! You won this game :)", 650.0f, 500.0f, 1.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+                    RenderText(shader, "Cheers! You won this game :)", 650.0f, 500.0f, 1.1f, glm::vec3(0.0f, 0.9f, 0.0f));
                 }
                 else {
                     RenderText(shader, "OOops!! You lost :p", 710.0f, 500.0f, 1.1f, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -853,7 +853,7 @@ int main(int argc, char **argv)
                 glfwSwapBuffers(window);
             } else {
                 sprintf(game_title, "AMONG US");
-                sprintf(HUD, "Health: %d, Tasks left: %d/2, Time left: %ds, Light: On", player1.get_health(), player1.get_task_done(), player1.get_time());
+                sprintf(HUD, "Health: %d, Tasks done: %d/2, Time left: %ds, Light: On", player1.get_health(), player1.get_task_done(), player1.get_time());
                 draw();
 
                 glEnable(GL_CULL_FACE);
