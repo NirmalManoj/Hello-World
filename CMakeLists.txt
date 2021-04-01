@@ -31,6 +31,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
 
 # glm 
+add_definitions(-D GLM_ENABLE_EXPERIMENTAL) 
 set(GLM_DIR "${LIB_DIR}/glm")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLM_DIR}")
 
@@ -51,19 +52,9 @@ pkg_check_modules(GLEW REQUIRED glew)
 include_directories(${GLEW_INCLUDE_DIRS})
 target_link_libraries (${PROJECT_NAME} ${GLEW_LIBRARIES})
 
-
 # Freetype
-# find_package(Freetype REQUIRED)
-# target_link_libraries(${PROJECT_NAME}  ${FREETYPE_LIBRARIES})
-# target_include_directories(${PROJECT_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
-
-# Gok new
 find_package(Freetype REQUIRED)
-
 SET(CMAKE_CXX_FLAGS "-O2 -std=c++11")
-
 SET(CMAKE_EXE_LINKER_FLAGS "-v")
-
-# add_executable( demo src/main.cpp) # CMAKE_CURRENT_SOURCE_DIR is implicit here
-target_link_libraries(${PROJECT_NAME}  ${FREETYPE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${FREETYPE_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
