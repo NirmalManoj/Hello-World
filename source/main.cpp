@@ -104,7 +104,7 @@ void draw()
 
     // Eye - Location of camera. Don't change unless you are sure!!
     // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
-    glm::vec3 eye(0, 0, 1);
+    glm::vec3 eye(0, 0, 0.75);
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target(0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -458,7 +458,7 @@ void tick_elements()
         // enemy1.move_position();
         move_enemy();
     }
-}
+}   
 
 void chooseModel()
 {
@@ -564,7 +564,7 @@ int main(int argc, char **argv)
 
     // compile and setup the shader
     // ----------------------------
-    Shader shader("./text.vs", "./text.fs");
+    Shader shader("../source/shaders/text.vert", "../source/shaders/text.frag");
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
     shader.use();
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -640,6 +640,8 @@ int main(int argc, char **argv)
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    char game_title[123];
+    char HUD[123];
     /* Draw in loop */
     while (!glfwWindowShouldClose(window))
     {
@@ -654,18 +656,21 @@ int main(int argc, char **argv)
 
         if (t60.processTick())
         {
-            // 60 fps
-            // OpenGL Draw commands
-            draw();
-            // OpenGL state
-            // ------------
-            glEnable(GL_CULL_FACE);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            RenderText(shader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-            RenderText(shader, "(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-            glDisable(GL_CULL_FACE);
-            glDisable(GL_BLEND);
+                sprintf(game_title, "AMONG US");
+                sprintf(HUD, "Health: %d, Tasks left: %d, Time left: %ds, Light: On", 10, 2, 100);
+                draw();
+
+                glEnable(GL_CULL_FACE);
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+                // Heads up display
+                RenderText(shader, HUD, 670.0f, 900.0f, 0.5f, glm::vec3(0.988f, 0.371f, 0.0f));
+                RenderText(shader, game_title, 830.0f, 950.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+
+                glDisable(GL_CULL_FACE);
+                glDisable(GL_BLEND);
+
 
             // Swap Frame Buffer in double buffering
             glfwSwapBuffers(window);
@@ -746,7 +751,7 @@ void RenderText(Shader &shader, std::string text, float x, float y, float scale,
     glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(text_VAO);
-
+    std::cout << "TO PRINT: " << text << "\n";
     // iterate through all characters
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
