@@ -22,9 +22,12 @@ public:
     void stop_spin();
     float get_ang(float x);
     double speed;
+    bool is_live();
+    void set_dead();
 
 protected:
     VAO *object;
+    bool alive;
 };
 
 #endif // BALL_H

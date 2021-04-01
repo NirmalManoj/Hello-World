@@ -10,6 +10,7 @@ Player::Player(float x, float y, color_t color)
     this->initial_position = this->position;
     this->rotation = 0;
     this->spin_axis = 0;
+    this->game_over = false;
     speed = 1;
 
     // Vectors in decagon
@@ -188,4 +189,17 @@ void Player::add_sector(std::vector<GLfloat> &trias){
 void Player::get_pos(int &row, int &col){
     col = round((this->position.x+0.675f)/0.15f);
     row = round((-this->position.y+0.675f)/0.15f);
+}
+
+void Player::set_game_over(bool win_status){
+    this->game_over = true;
+    this->won = win_status;
+}
+
+bool Player::is_game_over(){
+    return this->game_over;
+}
+
+bool Player::is_won(){
+    return this->won;
 }

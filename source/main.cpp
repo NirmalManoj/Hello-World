@@ -162,9 +162,15 @@ void draw()
     // maze1.draw();
     // cout << "HI1\n";
 
+    if(player1.is_game_over()){
+        return;
+    }
+
     maze1.draw(VP);
     player1.draw(VP);
-    enemy1.draw(VP);
+    if (enemy1.is_live()){
+        enemy1.draw(VP);
+    }
     // maze1.draw();
     // cout << "HI2\n";
 }
@@ -297,21 +303,21 @@ void tick_input(GLFWwindow *window)
     // if (key_i){
     //     ball1.move_position(cameraFront*camera_speed);
     // }
-    // if (key_k){
-    //     ball1.move_position(-1.0f*cameraFront*camera_speed);
-    // }
+    if (key_k){ // Cheat
+        enemy1.set_dead();
+    }
     // if (key_j){
     //     ball1.move_position(-1.0f*glm::vec3(1, 0, 0)*camera_speed);
     // }
     // if (key_l){
-    //     ball1.move_position(1.0f*glm::vec3(1, 0, 0)*camera_speed);
+    //     ball1.move_position(1.0f*glm::vec3(1, 0, 0)*camera_s peed);
     // }
-    // if (key_o){
-    //     ball1.move_position(1.0f*glm::vec3(0, 1, 0)*camera_speed);
-    // }
-    // if (key_p){
-    //     ball1.move_position(-1.0f*glm::vec3(0, 1, 0)*camera_speed);
-    // }
+    if (key_o){ // Cheat
+        player1.set_game_over(); // "Game over lise"
+    }
+    if (key_p){ // Cheat
+        player1.set_game_over(true); // "Game over win"
+    }
 
     // if (start_rotate){
     //     ball1.reset_position();
@@ -358,6 +364,9 @@ void tick_input(GLFWwindow *window)
 
 void move_enemy()
 {
+    if(enemy1.is_live() == false){
+        return;
+    }
     int row1, col1; // player
     int row2, col2; // enemy
     player1.get_pos(row1, col1);
@@ -458,6 +467,7 @@ void tick_elements()
         // enemy1.move_position();
         move_enemy();
     }
+
 }   
 
 void chooseModel()
@@ -656,6 +666,24 @@ int main(int argc, char **argv)
 
         if (t60.processTick())
         {
+            if (player1.is_game_over()){
+                draw();
+                glEnable(GL_CULL_FACE);
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                RenderText(shader, "Game over!", 740.0f, 600.0f, 1.65f, glm::vec3(0.91f, 0.82f, 0.0756f));
+                if(player1.is_won()) {
+                    RenderText(shader, "Cheers! You won this game :)", 650.0f, 500.0f, 1.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+                }
+                else {
+                    RenderText(shader, "OOops!! You lost :p", 710.0f, 500.0f, 1.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+                }
+
+                RenderText(shader, "Press Q to exit the game.", 700.0f, 400.0f, 0.5f, glm::vec3(0.1132, 0.003, 0.160f));
+                glDisable(GL_CULL_FACE);
+                glDisable(GL_BLEND);   
+                glfwSwapBuffers(window);
+            } else {
                 sprintf(game_title, "AMONG US");
                 sprintf(HUD, "Health: %d, Tasks left: %d, Time left: %ds, Light: On", 10, 2, 100);
                 draw();
@@ -672,11 +700,13 @@ int main(int argc, char **argv)
                 glDisable(GL_BLEND);
 
 
-            // Swap Frame Buffer in double buffering
-            glfwSwapBuffers(window);
+                // Swap Frame Buffer in double buffering
+                glfwSwapBuffers(window);
 
-            tick_elements();
-            tick_input(window);
+                tick_elements();
+                tick_input(window);
+
+            }
         }
 
         // Poll for Keyboard and mouse events
