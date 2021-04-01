@@ -9,6 +9,7 @@
 #include "enemy.h"
 #include "vaporizer.h"
 #include "task.h"
+#include "button.h"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -75,6 +76,8 @@ Maze maze1;
 Enemy enemy1;
 Vaporizer vaporizer1;
 Task task1[2];
+Button button1;
+
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -180,6 +183,9 @@ void draw()
         if(task1[i].is_live()){
             task1[i].draw(VP);
         }
+    }
+    if (button1.is_live()){
+        button1.draw(VP);
     }
     // maze1.draw();
     // cout << "HI2\n";
@@ -516,6 +522,20 @@ void check_enemy_collision() {
     }
 }
 
+void check_button_collision(){
+    if(button1.is_live() == false){
+        return;
+    }
+    int row1, col1, row2, col2;
+    player1.get_pos(row1, col1);
+    button1.get_pos(row2, col2);
+    if(row1 == row2 && col1 == col2){
+        button1.set_dead();
+        // Insert the obstacles and powerups here!
+        
+    }
+}
+
 void tick_elements()
 {
     // ball1.tick();
@@ -531,6 +551,7 @@ void tick_elements()
     }
     check_vaporizer_collision();
     check_enemy_collision();
+    check_button_collision();
 }   
 
 void chooseModel()
@@ -556,6 +577,9 @@ void chooseModel()
             std::cout << "ROW: " << row_no << "  COL: " << col_no << "\n";
         }
         // assert(1==2);
+        row_no = rand() % 10;   
+        col_no = rand() % 10;
+        button1 = Button(-0.675f+col_no*0.15f, 0.675f - row_no*0.15, COLOR_GREEN);
     }
     else if (select_model == 1)
     {
